@@ -1,0 +1,65 @@
+--- # Provider Service Sample Data (10/5/2014)
+provider: 
+  account: 
+    payPalAccountNumber: 12345
+  contact: carlos@gmail.com
+  name: Carlos Carreon
+  officeSpaces: 
+    - 
+      officeSpace: 
+        capacity: 
+          numberOfPeople: 7
+          squarefeet: 90
+          workSpaces: 9
+        commonAccess: 
+          - kitchen
+          - table
+          - bathroom
+        facility: 
+          category: "floor"
+          type: home
+        features: 
+          - WIFI
+          - Windows
+          - Parking
+          - "Free Donuts"
+          - Pets allowed
+        images: 
+          - 
+            image: 
+              description: "nice view"
+              name: "yard"
+              uri: ""
+        location: 
+          address: 
+            countryCode: USA
+            state: MA
+            street1: "darthmouth"
+            street2: ~
+            zipcode: 12345
+          lat: 01.1234
+          long: 09.156
+        name: "Carlos Floor"
+        rates: 
+          - 
+            rate: 
+              cost: $2000
+              period: day
+          - 
+            rate: 
+              cost: $90000
+              period: year
+        ratings: 
+          - 
+            rating: 
+              authorsId: Daniel
+              comment: "Quite expensive"
+              date: 6/10/2014
+              stars: 5
+          - 
+            rating: 
+              authorsId: Matt
+              comment: "nice view!"
+              date: 01/06/2014
+              stars: 3
+  picture: "http://commons.wikimedia.org/wiki/File:A_nice_view_of_Munnar.JPG"

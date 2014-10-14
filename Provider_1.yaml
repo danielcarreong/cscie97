@@ -1,0 +1,65 @@
+﻿--- # Provider Service Sample Data (10/5/2014)
+provider: 
+  account: 
+    payPalAccountNumber: 777888999
+  contact: fred@gmail.com
+  name: Fred
+  officeSpaces: 
+    - 
+      officeSpace: 
+        capacity: 
+          numberOfPeople: 1
+          squarefeet: 25
+          workSpaces: 1
+        commonAccess: 
+          - kitchen
+          - backyard
+          - pool
+        facility: 
+          category: "kitchen table"
+          type: home
+        features: 
+          - Whiteboard
+          - WIFI
+          - Windows
+          - Parking
+          - "Free Coffee"
+        images: 
+          - 
+            image: 
+              description: "spacious kitchen table work area"
+              name: "kitchen area"
+              uri: "http://www.designdazzle.com/wp-content/uploads/2013/05/66_9thave_KitchenEatingArea-600x763.jpg"
+        location: 
+          address: 
+            countryCode: USA
+            state: MA
+            street1: "1 story street"
+            street2: ~
+            zipcode: 02138
+          lat: 27.175015
+          long: 78.042155
+        name: "bills office space"
+        rates: 
+          - 
+            rate: 
+              cost: $40
+              period: week
+          - 
+            rate: 
+              cost: $10
+              period: day
+        ratings: 
+          - 
+            rating: 
+              authorsId: Frank
+              comment: "very quiet and easy to focus on work"
+              date: 9/19/2014
+              stars: 5
+          - 
+            rating: 
+              authorsId: Shirley
+              comment: "nice place to work, very productive"
+              date: 10/1/2014
+              stars: 5
+  picture: "http://www.wiredforbooks.org/images/FredRogers4.jpg"
