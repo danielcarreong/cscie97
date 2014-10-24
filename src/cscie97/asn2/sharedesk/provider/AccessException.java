@@ -4,8 +4,8 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * Class defining an exception when a user tries to call a secure method
  * @author Carlos Daniel Carreon Guzman
- *
  */
 public class AccessException extends Exception {
 
@@ -13,6 +13,7 @@ public class AccessException extends Exception {
     private String description;
 
     /**
+     * Retrieves exception description
      * @return the description
      */
     public String getDescription() {
@@ -20,6 +21,7 @@ public class AccessException extends Exception {
     }
 
     /**
+     * Sets exception description
      * @param description the description to set
      */
     public void setDescription(String description) {

@@ -4,6 +4,7 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * ProviderException subclass indicating the previous existence of a Provider record with similar information
  * @author Carlos Daniel Carreon Guzman
  *
  */

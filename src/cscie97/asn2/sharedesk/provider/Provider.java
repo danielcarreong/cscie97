@@ -11,22 +11,8 @@ import java.util.UUID;
  */
 public class Provider extends User implements Comparable<Object> {
     
-    private Account account;
     private UUID officeSpaceIdentifier;
     
-    /**
-     * @return the account
-     */
-    public Account getAccount() {
-	return account;
-    }
-
-    /**
-     * @param account the account to set
-     */
-    public void setAccount(Account account) {
-	this.account = account;
-    }
     /**
      * @return the officeSpace
      */

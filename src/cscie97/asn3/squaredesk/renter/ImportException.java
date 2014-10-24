@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cscie97.asn2.sharedesk.provider;
+package cscie97.asn3.squaredesk.renter;
 
 /**
  * Defines exception when importing data into services

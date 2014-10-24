@@ -4,6 +4,7 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * Class representing an OfficeSpace image or a User profile picture.
  * @author Carlos Daniel Carreon Guzman
  *
  */

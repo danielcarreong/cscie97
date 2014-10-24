@@ -4,6 +4,7 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * Class holding User Address information
  * @author Carlos Daniel Carreon Guzman
  *
  */

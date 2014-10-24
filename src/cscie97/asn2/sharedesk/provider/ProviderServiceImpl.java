@@ -14,23 +14,21 @@ import java.util.UUID;
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class ShareDeskService {
+public class ProviderServiceImpl {
     
-    private static ShareDeskService singleton = new ShareDeskService();
+    private static ProviderServiceImpl singleton = new ProviderServiceImpl();
     private Map<UUID, Provider> providerMap;
     private static final String AUTHTOKEN = "admin";
     
-    private ShareDeskService() {
+    private ProviderServiceImpl() {
 	providerMap = new HashMap<UUID, Provider>();
     }
-    
     /**
      * @return ShareDeskService unique instance
      */
-    public static ShareDeskService getInstance() {
+    public static ProviderServiceImpl getInstance() {
 	return singleton;
     }
-    
     /**
      * @param fileName
      * @throws ImportException
@@ -42,7 +40,6 @@ public class ShareDeskService {
 	Importer importer = new Importer();
 	importer.importYamlFile(fileName);
     }
-    
     /**
      * @param authToken
      * @param provider 
@@ -65,10 +62,8 @@ public class ShareDeskService {
 		return provider;
 	    }
 	}
-	
 	return null;
     }
-    
     /**
      * @param authToken
      * @param providerInputFile
@@ -85,32 +80,8 @@ public class ShareDeskService {
 		e.printStackTrace();
 	    }
 	}
-	
 	return null;
     }
-    
-    /**
-     * @param authToken
-     * @param identifier 
-     * @return Provider
-     * @throws ProviderNotFoundException 
-     * @throws AccessException 
-     */
-    public Provider getProvider(String authToken, UUID identifier) throws ProviderNotFoundException, AccessException {
-	
-	if (authorization(authToken)) {
-	    if (!providerMap.containsKey(identifier)) {
-		ProviderNotFoundException ex = new ProviderNotFoundException();
-		ex.setDescription("Identifier: " + identifier + " does not exists in our records.\n");
-		throw ex;
-	    } else {
-		return (Provider) providerMap.get(identifier);
-	    }
-	}
-	
-	return null;
-    }
-    
     /**
      * @param authToken 
      * @param provider 
@@ -128,7 +99,6 @@ public class ShareDeskService {
 	    } else
 		return null;
 	}
-	
 	return null;
     }
     
@@ -166,10 +136,10 @@ public class ShareDeskService {
 		throw ex;
 	    } else {
 		try {
-		    OfficeSpace office = OfficeSpaceService.getInstance().getOffice(authToken, provider.getOfficeSpaceIdentifier());
+		    OfficeSpace office = OfficeSpaceServiceImpl.getInstance().getOffice(authToken, provider.getOfficeSpaceIdentifier());
 		    if (office != null) {
 			System.out.println("Attempting deletion of Provider's Office Space: '" + office.getName() + "'");
-			OfficeSpaceService.getInstance().deleteOffice(authToken, office);
+			OfficeSpaceServiceImpl.getInstance().deleteOffice(authToken, office);
 			providerMap.remove(provider.getIdentifier());
 			System.out.println("Deletion of Provider: '" + provider.getName() + "' completed.\n");
 		    }
@@ -179,7 +149,26 @@ public class ShareDeskService {
 	    }
 	}
     }
-    
+    /**
+     * @param authToken
+     * @param identifier 
+     * @return Provider
+     * @throws ProviderNotFoundException 
+     * @throws AccessException 
+     */
+    public Provider getProvider(String authToken, UUID identifier) throws ProviderNotFoundException, AccessException {
+	
+	if (authorization(authToken)) {
+	    if (!providerMap.containsKey(identifier)) {
+		ProviderNotFoundException ex = new ProviderNotFoundException();
+		ex.setDescription("Identifier: " + identifier + " does not exists in our records.\n");
+		throw ex;
+	    } else {
+		return (Provider) providerMap.get(identifier);
+	    }
+	}
+	return null;
+    }
     /**
      * @param authToken
      * @return List
@@ -191,7 +180,6 @@ public class ShareDeskService {
 	    if (providerMap.size() > 0)
 		return new ArrayList<Provider> (providerMap.values());
 	}
-	
 	return null;
     }    
     /**

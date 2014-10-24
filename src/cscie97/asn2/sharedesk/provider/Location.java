@@ -4,6 +4,8 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * Class defining OfficeSpace Location information, contains an Address association
+ * in order to specify OfficeSpace address.
  * @author Carlos Daniel Carreon Guzman
  *
  */

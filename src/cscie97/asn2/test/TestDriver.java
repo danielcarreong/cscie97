@@ -8,11 +8,12 @@ import java.util.Iterator;
 import cscie97.asn2.sharedesk.provider.CommonAccess;
 import cscie97.asn2.sharedesk.provider.Feature;
 import cscie97.asn2.sharedesk.provider.OfficeSpace;
-import cscie97.asn2.sharedesk.provider.OfficeSpaceService;
+import cscie97.asn2.sharedesk.provider.OfficeSpaceServiceImpl;
 import cscie97.asn2.sharedesk.provider.Provider;
-import cscie97.asn2.sharedesk.provider.ShareDeskService;
+import cscie97.asn2.sharedesk.provider.ProviderServiceImpl;
 
 /**
+ * Class used as caller to demonstrate Provider and OfficeSpace services in ShareDesk application
  * @author Carlos Daniel Carreon Guzman
  *
  */
@@ -25,8 +26,8 @@ public class TestDriver {
 	
 	final String authToken = "admin";
 	
-	ShareDeskService sds = ShareDeskService.getInstance();
-	OfficeSpaceService oss = OfficeSpaceService.getInstance();
+	ProviderServiceImpl sds = ProviderServiceImpl.getInstance();
+	OfficeSpaceServiceImpl oss = OfficeSpaceServiceImpl.getInstance();
 	
 	try {
 	    sds.createProvider(authToken, "Provider_1.yaml");
@@ -126,7 +127,7 @@ public class TestDriver {
 	    }
 	    System.out.println("---End OfficeSpace List---\n");
 	    
-	    System.out.println("---Update Process---");
+	    System.out.println("---Update Process---\n");
 	    sds.updateProvider(authToken, toUpdate,"Provider_2Update.yaml");
 	    System.out.println("---End Update Process---\n");
 	    

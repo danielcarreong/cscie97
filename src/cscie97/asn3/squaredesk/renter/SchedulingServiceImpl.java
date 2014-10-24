@@ -74,4 +74,18 @@ public class SchedulingServiceImpl implements SchedulingService {
 	return null;
     }
 
+    /**
+     * @return the bookingMap
+     */
+    public Map<String, Renter> getBookingMap() {
+	return bookingMap;
+    }
+
+    /**
+     * @param bookingMap the bookingMap to set
+     */
+    public void setBookingMap(Map<String, Renter> bookingMap) {
+	this.bookingMap = bookingMap;
+    }
+
 }

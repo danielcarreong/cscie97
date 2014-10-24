@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * Super class providing general attributes for ShareDesk users
  * @author Carlos Daniel Carreon Guzman
  *
  */
@@ -17,6 +18,7 @@ public abstract class User {
     private String contact;
     private Image picture;
     private List<Rating> ratings;
+    private Account account;
 
     /**
      * @return the identifier
@@ -78,5 +80,21 @@ public abstract class User {
      */
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
+    }
+    /**
+     * @return the account
+     */
+    public Account getAccount() {
+	return account;
+    }
+    /**
+     * @param account the account to set
+     */
+    public void setAccount(Account account) {
+	this.account = account;
+    }
+    
+    public int hashCode() {
+	return name.hashCode();
     }
 }

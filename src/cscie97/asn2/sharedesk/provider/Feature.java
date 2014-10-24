@@ -4,8 +4,10 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * Class containing OfficeSpace Feature information.
+ * Implements Comparable interface in order to ensure that instances are uniquely
+ * defined by 'name' attribute.
  * @author Carlos Daniel Carreon Guzman
- *
  */
 public class Feature implements Comparable<Object> {
 

@@ -4,6 +4,7 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * OfficeSpaceException subclass indicating an OfficeSpace record was not found
  * @author Carlos Daniel Carreon Guzman
  *
  */

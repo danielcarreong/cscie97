@@ -6,6 +6,7 @@ package cscie97.asn2.sharedesk.provider;
 import java.util.Date;
 
 /**
+ * Class containing User and OfficeSpace rating information 
  * @author Carlos Daniel Carreon Guzman
  *
  */

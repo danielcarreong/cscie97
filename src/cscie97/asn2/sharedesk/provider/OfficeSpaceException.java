@@ -4,6 +4,7 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * General OfficeSpace exception class
  * @author Carlos Daniel Carreon Guzman
  *
  */

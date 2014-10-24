@@ -4,6 +4,7 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * Class containing OfficeSpace rate information
  * @author Carlos Daniel Carreon Guzman
  *
  */

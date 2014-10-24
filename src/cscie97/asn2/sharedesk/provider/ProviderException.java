@@ -4,6 +4,7 @@
 package cscie97.asn2.sharedesk.provider;
 
 /**
+ * General Provider Exception
  * @author Carlos Daniel Carreon Guzman
  *
  */
