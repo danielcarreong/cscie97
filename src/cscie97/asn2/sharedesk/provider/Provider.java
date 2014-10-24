@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class Provider extends User implements Comparable<Object> {
+public class Provider extends User implements Comparable<Provider> {
     
     private UUID officeSpaceIdentifier;
     
@@ -32,6 +32,8 @@ public class Provider extends User implements Comparable<Object> {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
+	if (!(obj instanceof Provider))
+	    return false;
 	
 	Provider comparator = (Provider) obj;
 	if (!super.getName().equalsIgnoreCase(comparator.getName()))
@@ -44,13 +46,9 @@ public class Provider extends User implements Comparable<Object> {
      * @param obj
      * @return comparator result
      */
-    public int compareTo(Object obj) {
-	if (obj instanceof Provider) {
-	    Provider compare = (Provider) obj;
-	    int result = super.getName().compareTo(compare.getName());
-	    return result;
-	}
-	return 0;
+    public int compareTo(Provider obj) {
+	int result = super.getName().compareTo(obj.getName());
+	return result;
     }
     
     @Override

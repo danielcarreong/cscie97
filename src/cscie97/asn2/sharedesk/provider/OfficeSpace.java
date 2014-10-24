@@ -11,7 +11,7 @@ import java.util.UUID;
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class OfficeSpace implements Comparable<Object> {
+public class OfficeSpace implements Comparable<OfficeSpace> {
 
     private UUID identifier;
     private String name;
@@ -151,6 +151,8 @@ public class OfficeSpace implements Comparable<Object> {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
+	if (!(obj instanceof OfficeSpace))
+	    return false;
 	
 	OfficeSpace comparator = (OfficeSpace) obj;
 	if (!this.name.equalsIgnoreCase(comparator.getName()))
@@ -159,13 +161,9 @@ public class OfficeSpace implements Comparable<Object> {
 	return true;
     }
     
-    public int compareTo(Object obj) {
-	if (obj instanceof OfficeSpace) {
-	    OfficeSpace compare = (OfficeSpace) obj;
-	    int result = this.name.compareTo(compare.getName());
-	    return result;
-	}
-	return 0;
+    public int compareTo(OfficeSpace obj) {
+	int result = this.name.compareTo(obj.getName());
+	return result;
     }
     
     @Override

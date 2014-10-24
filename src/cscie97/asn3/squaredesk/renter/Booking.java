@@ -10,8 +10,9 @@ import java.util.UUID;
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class Booking {
+public class Booking implements Comparable<Booking> {
 
+    private UUID bookingID;
     private UUID renterID;
     private UUID officeSpaceID;
     private String period;
@@ -20,18 +21,17 @@ public class Booking {
     private Date endDate;
     private String paymentStatus;
     
-    private UUID booking;
     /**
      * @return the booking
      */
     public UUID getBooking() {
-        return booking;
+        return bookingID;
     }
     /**
-     * @param booking the booking to set
+     * @param bookingID the bookingID to set
      */
-    public void setBooking(UUID booking) {
-        this.booking = booking;
+    public void setBooking(UUID bookingID) {
+        this.bookingID = bookingID;
     }
     /**
      * @return the renterID
@@ -116,5 +116,13 @@ public class Booking {
      */
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(Booking o) {
+	// TODO Auto-generated method stub
+	return 0;
     }
 }

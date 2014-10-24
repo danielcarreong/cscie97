@@ -5,21 +5,12 @@ package cscie97.asn3.squaredesk.renter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.ImportException;
-import cscie97.asn2.sharedesk.provider.OfficeSpace;
-import cscie97.asn2.sharedesk.provider.OfficeSpaceException;
-import cscie97.asn2.sharedesk.provider.OfficeSpaceNotFoundException;
-import cscie97.asn2.sharedesk.provider.OfficeSpaceServiceImpl;
-import cscie97.asn2.sharedesk.provider.Provider;
-import cscie97.asn2.sharedesk.provider.ProviderException;
-import cscie97.asn2.sharedesk.provider.ProviderNotFoundException;
-import cscie97.asn2.sharedesk.provider.ProviderServiceImpl;
 import cscie97.asn3.squaredesk.renter.Importer;
 import cscie97.asn2.sharedesk.provider.Renter;
 

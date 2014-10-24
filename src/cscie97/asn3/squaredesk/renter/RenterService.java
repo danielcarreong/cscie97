@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 import cscie97.asn2.sharedesk.provider.AccessException;
-import cscie97.asn2.sharedesk.provider.ProviderAlreadyExistException;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
