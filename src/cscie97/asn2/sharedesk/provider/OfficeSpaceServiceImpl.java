@@ -86,7 +86,6 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 		return office;
 	    }
 	}
-	
 	return null;
     }
     /**
@@ -103,7 +102,6 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 	    } else
 		return null;
 	}
-	
 	return null;
     }
     /**
@@ -153,7 +151,6 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 		return officeMap.get(identifier);
 	    }
 	}
-	
 	return null;
     }
     /**
@@ -167,7 +164,6 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 	    if (officeMap.size() > 0)
 		return new ArrayList<OfficeSpace> (officeMap.values());
 	}
-	
 	return null;
     }
     /**

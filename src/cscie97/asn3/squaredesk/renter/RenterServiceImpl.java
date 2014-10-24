@@ -3,10 +3,24 @@
  */
 package cscie97.asn3.squaredesk.renter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import cscie97.asn2.sharedesk.provider.AccessException;
+import cscie97.asn2.sharedesk.provider.ImportException;
+import cscie97.asn2.sharedesk.provider.OfficeSpace;
+import cscie97.asn2.sharedesk.provider.OfficeSpaceException;
+import cscie97.asn2.sharedesk.provider.OfficeSpaceNotFoundException;
+import cscie97.asn2.sharedesk.provider.OfficeSpaceServiceImpl;
+import cscie97.asn2.sharedesk.provider.Provider;
+import cscie97.asn2.sharedesk.provider.ProviderException;
+import cscie97.asn2.sharedesk.provider.ProviderNotFoundException;
+import cscie97.asn2.sharedesk.provider.ProviderServiceImpl;
+import cscie97.asn3.squaredesk.renter.Importer;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
@@ -15,10 +29,13 @@ import cscie97.asn2.sharedesk.provider.Renter;
  */
 public class RenterServiceImpl implements RenterService {
     
-    private Map<String, Renter> renterMap;
     private static RenterServiceImpl singleton = new RenterServiceImpl();
+    private Map<UUID, Renter> renterMap;
+    private static final String AUTHTOKEN = "admin";
     
-    private RenterServiceImpl() {};
+    private RenterServiceImpl() {
+	renterMap = new HashMap<UUID, Renter>();
+    };
     
     /**
      * @return RenterServiceImpl single instance
@@ -26,13 +43,48 @@ public class RenterServiceImpl implements RenterService {
     public static RenterServiceImpl getInstance() {
 	return singleton;
     }
+    
+    private void importRenterFile(String fileName) throws ImportException, AccessException, RenterException {
+	Importer importer = new Importer();
+	importer.importYamlFile(fileName);
+    }
 
     /* (non-Javadoc)
      * @see cscie97.asn3.squaredesk.renter.RenterService#createRenter(java.lang.String, cscie97.asn2.sharedesk.provider.Renter)
      */
     @Override
-    public Renter createRenter(String authToken, Renter renter) {
-	// TODO Auto-generated method stub
+    public Renter createRenter(String authToken, Renter renter) throws RenterAlreadyExistException, AccessException {
+	if (authorization(authToken)) {
+	    if (renterMap.containsValue(renter)) {
+		RenterAlreadyExistException ex = new RenterAlreadyExistException();
+		ex.setDescription("Renter name: " + renter.getName() + " already exists in our records. Please define a different one.\n");
+		throw ex;
+	    }
+	    else {
+		renterMap.put(renter.getIdentifier(), renter);
+		System.out.println("Provider: '" + renter.getName() + "' succesfully created.");
+		return renter;
+	    }
+	}
+	return null;
+    }
+    
+    /**
+     * @param authToken
+     * @param renterInputFile
+     * @return Remter
+     * @throws RenterAlreadyExistException
+     * @throws AccessException
+     */
+    public Renter createRenter(String authToken, String renterInputFile) throws RenterAlreadyExistException, AccessException {
+	
+	if (authorization(authToken)) {
+	    try {
+		importRenterFile(renterInputFile);
+	    } catch (ImportException | RenterException e) {
+		e.printStackTrace();
+	    }
+	}
 	return null;
     }
 
@@ -40,26 +92,68 @@ public class RenterServiceImpl implements RenterService {
      * @see cscie97.asn3.squaredesk.renter.RenterService#updateRenter(java.lang.String, cscie97.asn2.sharedesk.provider.Renter)
      */
     @Override
-    public Renter updateRenter(String authToken, Renter renter) {
-	// TODO Auto-generated method stub
+    public Renter updateRenter(String authToken, Renter renter) throws AccessException {
+	
+	if (authorization(authToken)) {
+	    if (renterMap.containsValue(renter)) {
+		return renterMap.put(renter.getIdentifier(), renter);
+	    } else
+		return null;
+	}
 	return null;
+    }
+    
+    /**
+     * @param authToken
+     * @param oldRenter
+     * @param newRenterInputFileName
+     * @throws AccessException
+     * @throws ImportException
+     * @throws RenterException
+     */
+    public void updateProvider(String authToken, Renter oldRenter, String newRenterInputFileName) throws AccessException, ImportException, RenterException {
+	
+	if (authorization(authToken)) {
+	    if (renterMap.containsValue(oldRenter)) {
+		deleteRenter(authToken, oldRenter.getIdentifier());
+		importRenterFile(newRenterInputFileName);
+	    }
+	}
     }
 
     /* (non-Javadoc)
      * @see cscie97.asn3.squaredesk.renter.RenterService#deleteRenter(java.lang.String, java.util.UUID)
      */
     @Override
-    public void deleteRenter(String authToken, UUID renterID) {
-	// TODO Auto-generated method stub
+    public void deleteRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException {
 	
+	if (authorization(authToken)) {
+	    if (!renterMap.containsKey(renterID)) {
+		RenterNotFoundException ex = new RenterNotFoundException();
+		ex.setDescription("Renter ID: '" + renterID + "' was not found in our records.\n");
+		throw ex;
+	    } else {
+		System.out.println("Attempting deletion of Renter ID: '" + renterID + "'");
+		renterMap.remove(renterID);
+		System.out.println("Deletion of Renter ID: '" + renterID + "' completed.\n");
+	    }
+	}
     }
 
     /* (non-Javadoc)
      * @see cscie97.asn3.squaredesk.renter.RenterService#getRenter(java.lang.String, java.util.UUID)
      */
     @Override
-    public Renter getRenter(String authToken, UUID renterID) {
-	// TODO Auto-generated method stub
+    public Renter getRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException {
+	if (authorization(authToken)) {
+	    if (!renterMap.containsKey(renterID)) {
+		RenterNotFoundException ex = new RenterNotFoundException();
+		ex.setDescription("Renter ID: " + renterID + " does not exists in our records.\n");
+		throw ex;
+	    } else {
+		return renterMap.get(renterID);
+	    }
+	}
 	return null;
     }
 
@@ -67,23 +161,30 @@ public class RenterServiceImpl implements RenterService {
      * @see cscie97.asn3.squaredesk.renter.RenterService#getRenterList(java.lang.String)
      */
     @Override
-    public List<Renter> getRenterList(String authToken) {
-	// TODO Auto-generated method stub
+    public List<Renter> getRenterList(String authToken) throws AccessException {
+	if (authorization(authToken)) {
+	    if (renterMap.size() > 0)
+		return new ArrayList<Renter> (renterMap.values());
+	}
 	return null;
     }
 
     /**
-     * @return the renterMap
+     * 
+     * @param authToken
+     * @return
+     * @throws AccessException
      */
-    public Map<String, Renter> getRenterMap() {
-	return renterMap;
+    private boolean authorization(String authToken) throws AccessException {
+	
+	AccessException accessEx = new AccessException();
+	if (authToken == null || authToken.length() == 0) {
+	    accessEx.setDescription("An Authorization Token must be specified.\n");
+	    throw accessEx;
+	} else if (!authToken.equalsIgnoreCase(AUTHTOKEN)) {
+	    accessEx.setDescription("Authorization Token is invalid.\n");
+	    throw accessEx;
+	} else
+	    return true;
     }
-
-    /**
-     * @param renterMap the renterMap to set
-     */
-    public void setRenterMap(Map<String, Renter> renterMap) {
-	this.renterMap = renterMap;
-    }
-
 }

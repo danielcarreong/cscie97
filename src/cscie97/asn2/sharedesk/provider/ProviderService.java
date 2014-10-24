@@ -29,11 +29,11 @@ public interface ProviderService {
     public Provider updateProvider(String authToken, Provider provider) throws AccessException;
     /**
      * @param authToken
-     * @param provider
+     * @param providerID 
      * @throws ProviderNotFoundException
      * @throws AccessException
      */
-    public void deleteProvider(String authToken, Provider provider) throws ProviderNotFoundException, AccessException;
+    public void deleteProvider(String authToken, UUID providerID) throws ProviderNotFoundException, AccessException;
     /**
      * @param authToken
      * @param identifier

@@ -19,8 +19,12 @@ import java.util.UUID;
 
 import org.yaml.snakeyaml.Yaml;
 
+import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.Account;
 import cscie97.asn2.sharedesk.provider.Image;
+import cscie97.asn2.sharedesk.provider.ImportException;
+import cscie97.asn2.sharedesk.provider.OfficeSpaceException;
+import cscie97.asn2.sharedesk.provider.ProviderException;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
@@ -36,16 +40,16 @@ public class Importer {
     private static final String PICTURE = "picture";
     private static final String ACCOUNT = "account";
     private static final String PAYPAL = "payPalAccountNumber";
+    private static final String GENDER = "gender";
     
     /**
      * @param fileName
      * @throws ImportException 
      * @throws AccessException 
-     * @throws ProviderException 
-     * @throws OfficeSpaceException 
-     * @throws ProviderAlreadyExistException 
+     * @throws RenterException 
+     * @throws RenterAlreadyExistException 
      */
-    public void importYamlFile(String fileName) throws ImportException {
+    public void importYamlFile(String fileName) throws ImportException, AccessException, RenterException {
 	
 	RenterServiceImpl rsi = RenterServiceImpl.getInstance();
 	
@@ -85,6 +89,9 @@ public class Importer {
 			if (validInput(data.get(CONTACT)))
 			    renter.setContact(data.get(CONTACT).toString());
 			
+			if (validInput(data.get(GENDER)))
+			    renter.setContact(data.get(GENDER).toString());
+			
 			if (validInput(data.get(PICTURE))) {
 			    Image picture = new Image();
 			    picture.setURI(data.get(PICTURE).toString());
@@ -109,7 +116,11 @@ public class Importer {
             e.printStackTrace();
             ie.setDescription(e.getMessage());
             throw ie;
-        }
+        } catch (RenterAlreadyExistException e) {
+	    throw e;
+	} catch (AccessException e) {
+	    throw e;
+	}
     }
     
     private boolean validInput(Object obj) {

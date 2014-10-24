@@ -11,10 +11,12 @@ import java.util.UUID;
 
 
 /**
+ * Provides implementation for ProviderService interface. Implements singleton pattern for single instantiation
+ * in order to keep data persisted.
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class ProviderServiceImpl {
+public class ProviderServiceImpl implements ProviderService {
     
     private static ProviderServiceImpl singleton = new ProviderServiceImpl();
     private Map<UUID, Provider> providerMap;
@@ -115,7 +117,7 @@ public class ProviderServiceImpl {
 	
 	if (authorization(authToken)) {
 	    if (providerMap.containsValue(oldProvider)) {
-		deleteProvider(authToken, oldProvider);
+		deleteProvider(authToken, oldProvider.getIdentifier());
 		importProviderFile(newProviderInputFileName);
 	    }
 	}
@@ -123,25 +125,32 @@ public class ProviderServiceImpl {
 
     /**
      * @param authToken
-     * @param provider 
+     * @param providerID 
      * @throws ProviderNotFoundException 
      * @throws AccessException 
      */
-    public void deleteProvider(String authToken, Provider provider) throws ProviderNotFoundException, AccessException {
+    public void deleteProvider(String authToken, UUID providerID) throws ProviderNotFoundException, AccessException {
 	
 	if (authorization(authToken)) {
-	    if (!providerMap.containsValue(provider)) {
+	    if (!providerMap.containsKey(providerID)) {
 		ProviderNotFoundException ex = new ProviderNotFoundException();
-		ex.setDescription("Provider: " + provider.getName() + " was not found in our records.\n");
+		ex.setDescription("Provider ID: " + providerID + " was not found in our records.\n");
 		throw ex;
 	    } else {
 		try {
-		    OfficeSpace office = OfficeSpaceServiceImpl.getInstance().getOffice(authToken, provider.getOfficeSpaceIdentifier());
+		    OfficeSpace office = OfficeSpaceServiceImpl.getInstance().getOffice(authToken, (getProvider(authToken, providerID)).getOfficeSpaceIdentifier());
 		    if (office != null) {
 			System.out.println("Attempting deletion of Provider's Office Space: '" + office.getName() + "'");
 			OfficeSpaceServiceImpl.getInstance().deleteOffice(authToken, office);
-			providerMap.remove(provider.getIdentifier());
-			System.out.println("Deletion of Provider: '" + provider.getName() + "' completed.\n");
+			System.out.println("Attempting deletion of Provider: '" + providerID + "'");
+			providerMap.remove(providerID);
+			System.out.println("Deletion of Provider ID: '" + providerID + "' completed.\n");
+		    } else {
+			if (getProvider(authToken, providerID) != null) {
+			    System.out.println("Attempting deletion of Provider: '" + providerID + "'");
+			    providerMap.remove(providerID);
+			    System.out.println("Deletion of Provider ID: '" + providerID + "' completed.\n");
+			}
 		    }
 		} catch (OfficeSpaceNotFoundException e) {
 		    e.printStackTrace();
