@@ -30,8 +30,8 @@ public class TestDriver {
 	OfficeSpaceServiceImpl oss = OfficeSpaceServiceImpl.getInstance();
 	
 	try {
-	    sds.createProvider(authToken, "Provider_1.yaml");
-	    sds.createProvider(authToken, "Provider_2.yaml");
+	    sds.createProvider(authToken, "Provider1.yaml");
+	    sds.createProvider(authToken, "Provider2.yaml");
 	    
 	    Provider toDelete = new Provider();
 	    Provider toUpdate = new Provider();
@@ -81,7 +81,7 @@ public class TestDriver {
 	    }
 	    System.out.println("---End OfficeSpace List---\n");
 	    
-	    oss.deleteOffice(authToken, oss.getOffice(authToken, toDelete.getOfficeSpaceIdentifier()));
+	    //oss.deleteOffice(authToken, oss.getOffice(authToken, toDelete.getOfficeSpaceIdentifier()));
 	    
 	    Iterator<Provider> itr3 = sds.getProviderList(authToken).iterator();
 	    System.out.println("---Providers List---\n");
@@ -128,7 +128,7 @@ public class TestDriver {
 	    System.out.println("---End OfficeSpace List---\n");
 	    
 	    System.out.println("---Update Process---\n");
-	    sds.updateProvider(authToken, toUpdate,"Provider_2Update.yaml");
+	    sds.updateProvider(authToken, toUpdate,"Provider2_Update.yaml");
 	    System.out.println("---End Update Process---\n");
 	    
 	    Iterator<Provider> itr4 = sds.getProviderList(authToken).iterator();

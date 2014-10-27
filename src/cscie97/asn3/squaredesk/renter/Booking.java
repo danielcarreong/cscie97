@@ -3,6 +3,7 @@
  */
 package cscie97.asn3.squaredesk.renter;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,13 +25,13 @@ public class Booking implements Comparable<Booking> {
     /**
      * @return the booking
      */
-    public UUID getBooking() {
+    public UUID getBookingID() {
         return bookingID;
     }
     /**
      * @param bookingID the bookingID to set
      */
-    public void setBooking(UUID bookingID) {
+    public void setBookingID(UUID bookingID) {
         this.bookingID = bookingID;
     }
     /**

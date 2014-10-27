@@ -1,0 +1,8 @@
+﻿--- # Renter Service Sample Data
+renter: 
+  account: 
+    payPalAccountNumber: 777888999
+  contact: fred@gmail.com
+  name: Fred
+  picture: "http://www.wiredforbooks.org/images/FredRogers4.jpg"
+  gender: male

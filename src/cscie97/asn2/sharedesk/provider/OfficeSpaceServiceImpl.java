@@ -95,9 +95,10 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
      * @throws AccessException 
      */
     public OfficeSpace updateOffice(String authToken, OfficeSpace office) throws AccessException {
-
 	if (authorization(authToken)) {
 	    if (officeMap.containsValue(office)) {
+		// when updating OfficeSpaces: if OfficeSpace already exists, simply put instance in Map, this will
+		// automatically update object as long it is referenced by the same Key (OfficeSpace ID)
 		return officeMap.put(office.getIdentifier(), office);
 	    } else
 		return null;

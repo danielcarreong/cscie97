@@ -9,6 +9,22 @@ package cscie97.asn2.sharedesk.provider;
  *
  */
 public class Renter extends User implements Comparable<Object> {
+    
+    private String gender;
+    
+    /**
+     * @return the gender
+     */
+    public String getGender() {
+	return gender;
+    }
+
+    /**
+     * @param gender the gender to set
+     */
+    public void setGender(String gender) {
+	this.gender = gender;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -41,5 +57,4 @@ public class Renter extends User implements Comparable<Object> {
     public int hashCode() {
 	return super.hashCode();
     }
-
 }

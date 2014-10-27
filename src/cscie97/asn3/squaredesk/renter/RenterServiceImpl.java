@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.ImportException;
-import cscie97.asn3.squaredesk.renter.Importer;
+import cscie97.asn3.squaredesk.renter.RenterImporter;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
@@ -36,7 +36,7 @@ public class RenterServiceImpl implements RenterService {
     }
     
     private void importRenterFile(String fileName) throws ImportException, AccessException, RenterException {
-	Importer importer = new Importer();
+	RenterImporter importer = new RenterImporter();
 	importer.importYamlFile(fileName);
     }
 
@@ -53,7 +53,7 @@ public class RenterServiceImpl implements RenterService {
 	    }
 	    else {
 		renterMap.put(renter.getIdentifier(), renter);
-		System.out.println("Provider: '" + renter.getName() + "' succesfully created.");
+		System.out.println("Renter: '" + renter.getName() + "' succesfully created.");
 		return renter;
 	    }
 	}

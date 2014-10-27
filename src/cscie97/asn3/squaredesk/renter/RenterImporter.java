@@ -7,14 +7,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.yaml.snakeyaml.Yaml;
@@ -23,15 +19,13 @@ import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.Account;
 import cscie97.asn2.sharedesk.provider.Image;
 import cscie97.asn2.sharedesk.provider.ImportException;
-import cscie97.asn2.sharedesk.provider.OfficeSpaceException;
-import cscie97.asn2.sharedesk.provider.ProviderException;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class Importer {
+public class RenterImporter {
     
     private static final String AUTHTOKEN = "admin";
     private static final String PROFILE = "renter";
@@ -90,7 +84,7 @@ public class Importer {
 			    renter.setContact(data.get(CONTACT).toString());
 			
 			if (validInput(data.get(GENDER)))
-			    renter.setContact(data.get(GENDER).toString());
+			    renter.setGender(data.get(GENDER).toString());
 			
 			if (validInput(data.get(PICTURE))) {
 			    Image picture = new Image();
