@@ -1,0 +1,36 @@
+﻿--- # Renter Service Sample Data (10/27/2014)
+renter:
+  account:
+    payPalAccountNumber: 777888777
+  contact: katie@gmail.com
+  gender: female
+  name: "Katie"
+  picture: "http://assets-s3.usmagazine.com/uploads/assets/article_photos/katie-467.jpg"
+  ratings:
+    -
+      rating:
+        authorsId: Fred
+        comment: "great renter"
+        date: 9/19/2014
+        stars: 5
+  searchCriteria:
+    category: ~
+    endDate: 10/29/2014
+    facility: home
+    feature:
+      - coffee
+      - TV
+      - parking
+      - WIFI
+    location:
+      lat: 42.375
+      long: -71.1061111
+      address:
+        city: Cambridge
+        countryCode: USA
+        state: MA
+        street1: "1 Brattle Street"
+        street2: ~
+        zipcode: 02138
+    minAvgRating: 5
+    startDate: 10/27/2014

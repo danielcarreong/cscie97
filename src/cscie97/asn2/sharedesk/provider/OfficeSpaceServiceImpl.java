@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import cscie97.asn1.knowledge.engine.KnowledgeGraph;
+
 /**
  * Class implementation of OfficeSpaceService interface provided as a singleton pattern in order to keep
  * persistence of OfficeSpace records in a single instance
@@ -22,48 +24,23 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 
     private static OfficeSpaceServiceImpl singleton = new OfficeSpaceServiceImpl();
     private Map<UUID, OfficeSpace> officeMap;
-    private Set<CommonAccess> commonAccessSet;
-    private Set<Feature> featureSet;
     private static final String AUTHTOKEN = "admin";
+    private KnowledgeGraph kg = KnowledgeGraph.getInstance();
+    
+    private String FEATURE = "has_feature";
+    private String COMMONACCESS = "has_common_access";
+    private String LAT_LONG = "has_lat_log";
+    private String FACILITY = "has_facility_type_category";
+    private String RATING = "has_average_rating";
     
     private OfficeSpaceServiceImpl() {
 	officeMap = new HashMap<UUID, OfficeSpace>();
-	commonAccessSet = new HashSet<CommonAccess>();
-	featureSet = new HashSet<Feature>();
     }
-    
     /**
      * @return ShareDeskService unique instance
      */
     public static OfficeSpaceServiceImpl getInstance() {
 	return singleton;
-    }
-    /**
-     * @return the commonAccessSet
-     */
-    public Set<CommonAccess> getCommonAccessSet() {
-	return commonAccessSet;
-    }
-
-    /**
-     * @param commonAccessSet the commonAccessSet to set
-     */
-    public void setCommonAccessSet(Set<CommonAccess> commonAccessSet) {
-	this.commonAccessSet = commonAccessSet;
-    }
-
-    /**
-     * @return the featureSet
-     */
-    public Set<Feature> getFeatureSet() {
-	return featureSet;
-    }
-
-    /**
-     * @param featureSet the featureSet to set
-     */
-    public void setFeatureSet(Set<Feature> featureSet) {
-	this.featureSet = featureSet;
     }
     /**
      * @param authToken
@@ -83,6 +60,7 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 	    else {
 		officeMap.put(office.getIdentifier(), office);
 		System.out.println("Office Space: '" + office.getName() + "' succesfully created.");
+		updateKnowledgeGraph(office);
 		return office;
 	    }
 	}
@@ -184,5 +162,45 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 	    throw accessEx;
 	} else
 	    return true;
+    }
+    
+    private void updateKnowledgeGraph(OfficeSpace officeSpace) throws AccessException {
+	// Populating KnowledgeGraph with OfficeSpace information
+	System.out.println("---Updating Knowledge Graph---\n");
+	for (Iterator<OfficeSpace> itr = getOfficeList(AUTHTOKEN).iterator(); itr.hasNext();) {
+	    OfficeSpace office = (OfficeSpace) itr.next();
+	    // adding Facility Type and Category
+	    if (office.getFacility() != null) {
+		String type = office.getFacility().getType().toString();
+		String category = office.getFacility().getCategory();
+		addKnowledgeNode(office.getIdentifier().toString(), FACILITY, type + "_" + category);
+	    }
+	    // adding rating
+	    //addKnowledgeNode(office.getIdentifier().toString(), RATING, office.getr);
+	    // adding OfficeSpace latitude and longitude
+	    String lat = String.valueOf(office.getLocation().getLat());
+	    String lon = String.valueOf(office.getLocation().getLon());
+	    addKnowledgeNode(office.getIdentifier().toString(), LAT_LONG, lat + "_" + lon);
+	    // adding OfficeSpace CommonAccess
+	    for (Iterator<CommonAccess> commonAccessItr = office.getCommonAccess().iterator(); commonAccessItr.hasNext();) {
+		CommonAccess ca = commonAccessItr.next();
+		addKnowledgeNode(office.getIdentifier().toString(), COMMONACCESS, ca.getName());
+	    }
+	    // adding OfficeSpace Features
+	    for (Iterator<Feature> featureItr = office.getFeature().iterator(); featureItr.hasNext();) {
+		Feature feature = featureItr.next();
+		addKnowledgeNode(office.getIdentifier().toString(), FEATURE, feature.getName());
+	    }
+	    
+	    
+	}
+	System.out.println("---End Updating Knowledge Graph---\n");
+    }
+    
+    private void addKnowledgeNode(String subject, String predicate, String object) {
+	kg.addTriplePermutation(kg.getTriple(
+		    kg.getNode(subject),
+		    kg.getPredicate(predicate),
+		    kg.getNode(object)));
     }
 }

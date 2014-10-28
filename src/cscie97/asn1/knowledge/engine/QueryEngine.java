@@ -25,9 +25,10 @@ public class QueryEngine {
      * as String and prints out all possible results.
      * 
      * @param strQuery String query input in a form of Triplet
+     * @return String identifier
      * @throws QueryEngineException 
      */
-    public void executeQuery(String strQuery) throws QueryEngineException {
+    public String executeQuery(String strQuery) throws QueryEngineException {
 	
 	int lineLenght = strQuery.length();
 	String subject = "";
@@ -66,6 +67,8 @@ public class QueryEngine {
 		    while(itr.hasNext()) {
 			Triple obj = (Triple) itr.next();
 			print(obj.getIdentifier() + ".");
+			if (!obj.getSubject().getIdentifier().equals("?"))
+			    return obj.getSubject().getIdentifier();
 		    }
 		}
 		else
@@ -77,6 +80,7 @@ public class QueryEngine {
 		throw new QueryEngineException("Query doesn't have the correct number of arguments (? ? ?). Query: " + strQuery);
 	} else
 	    throw new QueryEngineException("Query Triple is malformed. Verify it ends with a period. Query: " + strQuery);
+	return null;
     }
     
     /**

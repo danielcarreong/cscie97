@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -77,15 +78,15 @@ public class Importer {
 	OfficeSpaceServiceImpl oss = OfficeSpaceServiceImpl.getInstance();
 	
 	ImportException ie = new ImportException();
-	System.out.println("Importing document ...");
+	System.out.println("Importing Provider document ...");
 	try(InputStream input = new FileInputStream(new File(fileName))) {
 	    
 	    Yaml yaml = new Yaml();
 	    Object yamlObj = yaml.load(input);
 	    Provider provider = null;
 	    OfficeSpace officeSpace = null;
-	    Set<Feature> featureSet = oss.getFeatureSet();
-	    Set<CommonAccess> commonAccessSet = oss.getCommonAccessSet();
+	    //Set<Feature> featureSet = oss.getFeatureSet();
+	    //Set<CommonAccess> commonAccessSet = oss.getCommonAccessSet();
 	    
 	    if (!validInput(yamlObj)) {
 		ie.setDescription("File is empty.");
@@ -166,7 +167,7 @@ public class Importer {
 				    ArrayList<String> commonAccessArray = (ArrayList<String>) officeSpaceMap.get(COMMONACCESS);
 				    if (validInput(commonAccessArray)) {
 					Iterator<String> commonAccessItr = commonAccessArray.iterator();
-
+					Set<CommonAccess> commonAccessSet = new HashSet<CommonAccess>();
 					while(commonAccessItr.hasNext()) {
 					    String strCommonAccess = commonAccessItr.next();
 					    if (validInput(strCommonAccess)) {
@@ -175,7 +176,6 @@ public class Importer {
 						commonAccessSet.add(commonAccess);
 					    }
 					}
-					
 					officeSpace.setCommonAccess(commonAccessSet);
 				    }
 				    // Facility
@@ -200,7 +200,7 @@ public class Importer {
 				    ArrayList<String> featuresArray = (ArrayList<String>) officeSpaceMap.get(FEATURES);
 				    if (validInput(featuresArray)) {
 					Iterator<String> featuresItr = featuresArray.iterator();
-					
+					Set<Feature> featureSet = new HashSet<Feature>();
 					while(featuresItr.hasNext()) {
 					    String strFeature = featuresItr.next();
 					    
@@ -210,7 +210,6 @@ public class Importer {
 						featureSet.add(feature);
 					    }
 					}
-					
 					officeSpace.setFeature(featureSet);
 				    }
 				    // Image List

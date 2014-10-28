@@ -23,7 +23,7 @@ provider:
           - WIFI
           - Windows
           - Parking
-          - "Free Coffee"
+          - coffee
         images: 
           - 
             image: 

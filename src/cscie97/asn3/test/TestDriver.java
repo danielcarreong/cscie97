@@ -38,51 +38,12 @@ public class TestDriver {
 	OfficeSpaceServiceImpl oss = OfficeSpaceServiceImpl.getInstance();
 	RenterServiceImpl rsi = RenterServiceImpl.getInstance();
 	SchedulingServiceImpl ssi = SchedulingServiceImpl.getInstance();
-	KnowledgeGraph kg = KnowledgeGraph.getInstance();
-	QueryEngine queryEngine = new QueryEngine();
 	
 	try {
 	    
 	    psi.createProvider(authToken, "Provider1.yaml");
 	    psi.createProvider(authToken, "Provider2.yaml");
-	    // Populating KnowledgeGraph with OfficeSpace information
-	    System.out.println("---Populating Knowledge Graph---\n");
-	    for (Iterator<OfficeSpace> itr = oss.getOfficeList(authToken).iterator(); itr.hasNext();) {
-		OfficeSpace office = (OfficeSpace) itr.next();
-		// adding OfficeSpace latitude and longitude 
-		String lat = String.valueOf(office.getLocation().getLat());
-		String lon = String.valueOf(office.getLocation().getLon());
-		kg.addTriplePermutation(
-			kg.getTriple(
-				kg.getNode(office.getIdentifier().toString()), 
-				kg.getPredicate("has_lat_long"),
-				kg.getNode(lat + "_" + lon)));
-		// adding OfficeSpace CommonAccess
-		for (Iterator<CommonAccess> commonAccessItr = office.getCommonAccess().iterator(); commonAccessItr.hasNext();) {
-		    CommonAccess ca = commonAccessItr.next();
-		    kg.addTriplePermutation(
-			    kg.getTriple(
-				    kg.getNode(office.getIdentifier().toString()), 
-				    kg.getPredicate("has_common_access"), 
-				    kg.getNode(ca.getName())));
-		}
-		// adding OfficeSpace Features
-		for (Iterator<Feature> featureItr = office.getFeature().iterator(); featureItr.hasNext();) {
-		    Feature feature = featureItr.next();
-		    kg.addTriplePermutation(
-			    kg.getTriple(
-				    kg.getNode(office.getIdentifier().toString()), 
-				    kg.getPredicate("has_feature"), 
-				    kg.getNode(feature.getName())));
-		}
-	    }
-	    try {
-		queryEngine.executeQuery("? has_common_access ?.");
-	    } catch (QueryEngineException e) {
-		e.printStackTrace();
-	    }
-	    System.out.println("---End Populating Knowledge Graph---\n");
-	    
+	    /*
 	    Provider providerToDelete = new Provider();
 	    Provider providerToUpdate = new Provider();
 	    
@@ -196,9 +157,10 @@ public class TestDriver {
 	    
 	    //cscie97.asn2.test.TestDriver td = new cscie97.asn2.test.TestDriver();
 	    //cscie97.asn2.test.TestDriver.main(null);
-	    
+	    */
 	    rsi.createRenter(authToken, "Renter1.yaml");
 	    rsi.createRenter(authToken, "Renter2.yaml");
+	    rsi.createRenter(authToken, "Renter3.yaml");
 	    
 	    Renter renterToUpdate = new Renter();
 	    Renter renterToDelete = new Renter();
@@ -250,13 +212,13 @@ public class TestDriver {
 	    String sdate = "01/01/2014";
 	    String edate = "01/10/2014";
 	    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+	    /*
 	    boolean result = ssi.checkAvailability(space.getIdentifier(), 
 		    format.parse(sdate), format.parse(edate));
 	    System.out.println(result);
-	    
 	    System.out.println(format.format(format.parseObject(sdate)));
 	    System.out.println(format.format(format.parseObject(edate)));
-	    
+	    */
 	    Booking booking = new Booking();
 	    booking.setOfficeSpaceID(space.getIdentifier());
 	    booking.setRenterID(renterToUpdate.getIdentifier());
