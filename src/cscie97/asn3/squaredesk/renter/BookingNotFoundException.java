@@ -13,7 +13,7 @@ public class BookingNotFoundException extends BookingException {
 
     @Override
     public String toString() {
-	return "BookingNotFoundException {" + 
-			"errorDescription: '" + getDescription() + "'}";
+	return "BookingNotFoundException {" + "errorDescription: '"
+		+ getDescription() + "'}";
     }
 }

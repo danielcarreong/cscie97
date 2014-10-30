@@ -23,8 +23,8 @@ renter:
       - parking
       - WIFI
     location:
-      lat: 42.375
-      long: -71.1061111
+      lat: 01
+      long: 09
       address:
         city: Cambridge
         countryCode: USA

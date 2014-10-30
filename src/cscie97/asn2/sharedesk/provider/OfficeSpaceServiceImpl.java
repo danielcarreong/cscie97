@@ -171,15 +171,24 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 	    OfficeSpace office = (OfficeSpace) itr.next();
 	    // adding Facility Type and Category
 	    if (office.getFacility() != null) {
-		String type = office.getFacility().getType().toString();
+		String type = new String();
+		if (office.getFacility().getType().equals(FacilityType.HOME))
+		    type = "HOME";
+		else
+		    type = "GARAGE";
 		String category = office.getFacility().getCategory();
-		addKnowledgeNode(office.getIdentifier().toString(), FACILITY, type + "_" + category);
+		System.out.println(office.getIdentifier().toString() + FACILITY + type + "_" + category);
+		if (type != null)
+		    if (category != null)
+			addKnowledgeNode(office.getIdentifier().toString(), FACILITY, type + "_" + category);
+		    else
+			addKnowledgeNode(office.getIdentifier().toString(), FACILITY, type);
 	    }
 	    // adding rating
 	    //addKnowledgeNode(office.getIdentifier().toString(), RATING, office.getr);
 	    // adding OfficeSpace latitude and longitude
-	    String lat = String.valueOf(office.getLocation().getLat());
-	    String lon = String.valueOf(office.getLocation().getLon());
+	    String lat = String.valueOf(Math.round(office.getLocation().getLat()));
+	    String lon = String.valueOf(Math.round(office.getLocation().getLon()));
 	    addKnowledgeNode(office.getIdentifier().toString(), LAT_LONG, lat + "_" + lon);
 	    // adding OfficeSpace CommonAccess
 	    for (Iterator<CommonAccess> commonAccessItr = office.getCommonAccess().iterator(); commonAccessItr.hasNext();) {
@@ -191,8 +200,6 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 		Feature feature = featureItr.next();
 		addKnowledgeNode(office.getIdentifier().toString(), FEATURE, feature.getName());
 	    }
-	    
-	    
 	}
 	System.out.println("---End Updating Knowledge Graph---\n");
     }

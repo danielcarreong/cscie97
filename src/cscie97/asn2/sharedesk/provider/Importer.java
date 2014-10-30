@@ -40,6 +40,7 @@ public class Importer {
     private static final String SQUAREFEET = "squarefeet";
     private static final String WORKSPACES = "workSpaces";
     private static final String COMMONACCESS = "commonAccess";
+    private static final String FACILITY = "facility";
     private static final String CATEGORY = "category";
     private static final String TYPE = "type";
     private static final String FEATURES = "features";
@@ -179,7 +180,7 @@ public class Importer {
 					officeSpace.setCommonAccess(commonAccessSet);
 				    }
 				    // Facility
-				    LinkedHashMap<String, String> facilityMap = new LinkedHashMap<String, String>();
+				    LinkedHashMap<String, String> facilityMap = (LinkedHashMap<String, String>) officeSpaceMap.get(FACILITY);
 				    if (validInput(facilityMap)) {
 					Facility facility = new Facility();
 					
@@ -193,7 +194,6 @@ public class Importer {
 					    else if (strType.equalsIgnoreCase("garage"))
 						facility.setType(FacilityType.GARAGE);
 					}
-					
 					officeSpace.setFacility(facility);
 				    }
 				    // Features
@@ -235,7 +235,6 @@ public class Importer {
 						imageList.add(image);
 					    }
 					}
-					
 					officeSpace.setImageList(imageList);
 				    }
 				    // Location
@@ -275,7 +274,6 @@ public class Importer {
 					    
 					    location.setAddress(address);
 					}
-					
 					officeSpace.setLocation(location);
 				    }
 				    // Rates List
@@ -309,7 +307,6 @@ public class Importer {
 						rateList.add(rate);
 					    }
 					}
-					
 					officeSpace.setRateList(rateList);
 				    }
 				    // Ratings List
@@ -339,7 +336,6 @@ public class Importer {
 						ratingList.add(rating);
 					    }
 					}
-					
 					officeSpace.setRatingList(ratingList);
 				    }
 				}

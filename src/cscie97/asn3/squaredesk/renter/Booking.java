@@ -21,104 +21,130 @@ public class Booking implements Comparable<Booking> {
     private Date startDate;
     private Date endDate;
     private String paymentStatus;
-    
+
     /**
      * @return the booking
      */
     public UUID getBookingID() {
-        return bookingID;
+	return bookingID;
     }
+
     /**
-     * @param bookingID the bookingID to set
+     * @param bookingID
+     *            the bookingID to set
      */
     public void setBookingID(UUID bookingID) {
-        this.bookingID = bookingID;
+	this.bookingID = bookingID;
     }
+
     /**
      * @return the renterID
      */
     public UUID getRenterID() {
-        return renterID;
+	return renterID;
     }
+
     /**
-     * @param renterID the renterID to set
+     * @param renterID
+     *            the renterID to set
      */
     public void setRenterID(UUID renterID) {
-        this.renterID = renterID;
+	this.renterID = renterID;
     }
+
     /**
      * @return the officeSpaceID
      */
     public UUID getOfficeSpaceID() {
-        return officeSpaceID;
+	return officeSpaceID;
     }
+
     /**
-     * @param officeSpaceID the officeSpaceID to set
+     * @param officeSpaceID
+     *            the officeSpaceID to set
      */
     public void setOfficeSpaceID(UUID officeSpaceID) {
-        this.officeSpaceID = officeSpaceID;
+	this.officeSpaceID = officeSpaceID;
     }
+
     /**
      * @return the period
      */
     public String getPeriod() {
-        return period;
+	return period;
     }
+
     /**
-     * @param period the period to set
+     * @param period
+     *            the period to set
      */
     public void setPeriod(String period) {
-        this.period = period;
+	this.period = period;
     }
+
     /**
      * @return the rate
      */
     public float getRate() {
-        return rate;
+	return rate;
     }
+
     /**
-     * @param rate the rate to set
+     * @param rate
+     *            the rate to set
      */
     public void setRate(float rate) {
-        this.rate = rate;
+	this.rate = rate;
     }
+
     /**
      * @return the startDate
      */
     public Date getStartDate() {
-        return startDate;
+	return startDate;
     }
+
     /**
-     * @param startDate the startDate to set
+     * @param startDate
+     *            the startDate to set
      */
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+	this.startDate = startDate;
     }
+
     /**
      * @return the endDate
      */
     public Date getEndDate() {
-        return endDate;
+	return endDate;
     }
+
     /**
-     * @param endDate the endDate to set
+     * @param endDate
+     *            the endDate to set
      */
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+	this.endDate = endDate;
     }
+
     /**
      * @return the paymentStatus
      */
     public String getPaymentStatus() {
-        return paymentStatus;
+	return paymentStatus;
     }
+
     /**
-     * @param paymentStatus the paymentStatus to set
+     * @param paymentStatus
+     *            the paymentStatus to set
      */
     public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+	this.paymentStatus = paymentStatus;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override

@@ -19,36 +19,44 @@ public interface RenterService {
      * @param authToken
      * @param renter
      * @return Renter
-     * @throws RenterAlreadyExistException 
-     * @throws AccessException 
+     * @throws RenterAlreadyExistException
+     * @throws AccessException
      */
-    public Renter createRenter(String authToken, Renter renter) throws RenterAlreadyExistException, AccessException;
+    public Renter createRenter(String authToken, Renter renter)
+	    throws RenterAlreadyExistException, AccessException;
+
     /**
      * @param authToken
      * @param renter
      * @return Renter
-     * @throws AccessException 
+     * @throws AccessException
      */
-    public Renter updateRenter(String authToken, Renter renter) throws AccessException;
+    public Renter updateRenter(String authToken, Renter renter)
+	    throws AccessException;
+
     /**
      * @param authToken
      * @param renterID
-     * @throws RenterNotFoundException 
-     * @throws AccessException 
+     * @throws RenterNotFoundException
+     * @throws AccessException
      */
-    public void deleteRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException;
+    public void deleteRenter(String authToken, UUID renterID)
+	    throws RenterNotFoundException, AccessException;
+
     /**
      * @param authToken
      * @param renterID
      * @return Renter
-     * @throws RenterNotFoundException 
-     * @throws AccessException 
+     * @throws RenterNotFoundException
+     * @throws AccessException
      */
-    public Renter getRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException;
+    public Renter getRenter(String authToken, UUID renterID)
+	    throws RenterNotFoundException, AccessException;
+
     /**
      * @param authToken
      * @return List<Renter>
-     * @throws AccessException 
+     * @throws AccessException
      */
     public List<Renter> getRenterList(String authToken) throws AccessException;
 }
