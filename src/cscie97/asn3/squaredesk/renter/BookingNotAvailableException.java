@@ -4,8 +4,9 @@
 package cscie97.asn3.squaredesk.renter;
 
 /**
+ * Booking exception thrown when a Booking record is not available.
  * @author Carlos Daniel Carreon Guzman
- *
+ * 
  */
 public class BookingNotAvailableException extends BookingException {
 

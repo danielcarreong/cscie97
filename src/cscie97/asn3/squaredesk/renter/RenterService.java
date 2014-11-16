@@ -10,12 +10,16 @@ import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
+ * Renter services interface. Defines the base services that will be provided for Renter users.
+ * 
  * @author Carlos Daniel Carreon Guzman
  *
  */
 public interface RenterService {
 
     /**
+     * Creates a new Renter record
+     * 
      * @param authToken
      * @param renter
      * @return Renter
@@ -26,6 +30,8 @@ public interface RenterService {
 	    throws RenterAlreadyExistException, AccessException;
 
     /**
+     * Updates an existing Renter record
+     * 
      * @param authToken
      * @param renter
      * @return Renter
@@ -35,6 +41,8 @@ public interface RenterService {
 	    throws AccessException;
 
     /**
+     * Deletes an existing Renter record
+     * 
      * @param authToken
      * @param renterID
      * @throws RenterNotFoundException
@@ -44,6 +52,8 @@ public interface RenterService {
 	    throws RenterNotFoundException, AccessException;
 
     /**
+     * Retrieves an existing Renter record
+     * 
      * @param authToken
      * @param renterID
      * @return Renter
@@ -54,6 +64,8 @@ public interface RenterService {
 	    throws RenterNotFoundException, AccessException;
 
     /**
+     * Retrieves all current existing Renter records
+     * 
      * @param authToken
      * @return List<Renter>
      * @throws AccessException

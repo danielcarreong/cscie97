@@ -15,9 +15,11 @@ import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.OfficeSpace;
 import cscie97.asn2.sharedesk.provider.OfficeSpaceNotFoundException;
 import cscie97.asn2.sharedesk.provider.OfficeSpaceServiceImpl;
-import cscie97.asn2.sharedesk.provider.Provider;
 
 /**
+ * SchedulingService implementation. Defines logic for managing booking services.
+ * Only one instance of the class can be created.
+ * 
  * @author Carlos Daniel Carreon Guzman
  *
  */
@@ -81,7 +83,7 @@ public class SchedulingServiceImpl implements SchedulingService {
 		    booking.setBookingID(UUID.randomUUID());
 		    bookingMap.put(booking.getBookingID(), booking);
 		    System.out.println("Booking: '" + booking.getBookingID()
-			    + "' succesfully created.");
+			    + "' succesfully created.\n");
 		}
 	    } catch (AccessException | OfficeSpaceNotFoundException e) {
 		e.printStackTrace();

@@ -4,8 +4,7 @@
 package cscie97.asn3.squaredesk.renter;
 
 /**
- * Defines exception when importing data into services
- * 
+ * Defines exception when importing data.
  * @author Carlos Daniel Carreon Guzman
  *
  */

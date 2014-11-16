@@ -15,6 +15,9 @@ import cscie97.asn3.squaredesk.renter.RenterImporter;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
+ * RenterService implementation class. Defines business logic for Renter CRUD
+ * services. Only one instance of the class can exist to preserve information.
+ * 
  * @author Carlos Daniel Carreon Guzman
  *
  */
@@ -75,8 +78,7 @@ public class RenterServiceImpl implements RenterService {
      * @throws RenterAlreadyExistException
      * @throws AccessException
      */
-    public Renter createRenter(String authToken, String renterInputFile)
-	    throws RenterAlreadyExistException, AccessException {
+    public Renter createRenter(String authToken, String renterInputFile) throws RenterAlreadyExistException, AccessException {
 
 	if (authorization(authToken)) {
 	    try {
@@ -96,8 +98,7 @@ public class RenterServiceImpl implements RenterService {
      * , cscie97.asn2.sharedesk.provider.Renter)
      */
     @Override
-    public Renter updateRenter(String authToken, Renter renter)
-	    throws AccessException {
+    public Renter updateRenter(String authToken, Renter renter) throws AccessException {
 
 	if (authorization(authToken)) {
 	    if (renterMap.containsValue(renter)) {
@@ -116,9 +117,7 @@ public class RenterServiceImpl implements RenterService {
      * @throws ImportException
      * @throws RenterException
      */
-    public void updateRenter(String authToken, Renter oldRenter,
-	    String newRenterInputFileName) throws AccessException,
-	    ImportException, RenterException {
+    public void updateRenter(String authToken, Renter oldRenter, String newRenterInputFileName) throws AccessException, ImportException, RenterException {
 
 	if (authorization(authToken)) {
 	    if (renterMap.containsValue(oldRenter)) {
@@ -136,21 +135,17 @@ public class RenterServiceImpl implements RenterService {
      * , java.util.UUID)
      */
     @Override
-    public void deleteRenter(String authToken, UUID renterID)
-	    throws RenterNotFoundException, AccessException {
+    public void deleteRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException {
 
 	if (authorization(authToken)) {
 	    if (!renterMap.containsKey(renterID)) {
 		RenterNotFoundException ex = new RenterNotFoundException();
-		ex.setDescription("Renter ID: '" + renterID
-			+ "' was not found in our records.\n");
+		ex.setDescription("Renter ID: '" + renterID + "' was not found in our records.\n");
 		throw ex;
 	    } else {
-		System.out.println("Attempting deletion of Renter ID: '"
-			+ renterID + "'");
+		System.out.println("Attempting deletion of Renter ID: '" + renterID + "'");
 		renterMap.remove(renterID);
-		System.out.println("Deletion of Renter ID: '" + renterID
-			+ "' completed.\n");
+		System.out.println("Deletion of Renter ID: '" + renterID + "' completed.\n");
 	    }
 	}
     }
@@ -163,8 +158,7 @@ public class RenterServiceImpl implements RenterService {
      * java.util.UUID)
      */
     @Override
-    public Renter getRenter(String authToken, UUID renterID)
-	    throws RenterNotFoundException, AccessException {
+    public Renter getRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException {
 	if (authorization(authToken)) {
 	    if (!renterMap.containsKey(renterID)) {
 		RenterNotFoundException ex = new RenterNotFoundException();

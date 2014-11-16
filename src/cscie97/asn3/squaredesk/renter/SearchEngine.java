@@ -3,11 +3,11 @@
  */
 package cscie97.asn3.squaredesk.renter;
 
-import java.util.Date;
-
 import cscie97.asn2.sharedesk.provider.OfficeSpace;
 
 /**
+ * SearchEngine interface defining search services used to retrieve OfficeSpace information.
+ * 
  * @author Carlos Daniel Carreon Guzman
  *
  */
@@ -41,7 +41,7 @@ public interface SearchEngine {
      * @return OfficeSpace
      * @throws SearchEngineException
      */
-    public OfficeSpace searchByRate(OfficeSpace officeSpace)
+    public OfficeSpace searchByRating(OfficeSpace officeSpace)
 	    throws SearchEngineException;
 
     /**

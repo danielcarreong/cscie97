@@ -165,43 +165,48 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
     }
     
     private void updateKnowledgeGraph(OfficeSpace officeSpace) throws AccessException {
-	// Populating KnowledgeGraph with OfficeSpace information
-	System.out.println("---Updating Knowledge Graph---\n");
-	for (Iterator<OfficeSpace> itr = getOfficeList(AUTHTOKEN).iterator(); itr.hasNext();) {
-	    OfficeSpace office = (OfficeSpace) itr.next();
-	    // adding Facility Type and Category
-	    if (office.getFacility() != null) {
-		String type = new String();
-		if (office.getFacility().getType().equals(FacilityType.HOME))
-		    type = "HOME";
-		else
-		    type = "GARAGE";
-		String category = office.getFacility().getCategory();
-		System.out.println(office.getIdentifier().toString() + FACILITY + type + "_" + category);
-		if (type != null)
-		    if (category != null)
-			addKnowledgeNode(office.getIdentifier().toString(), FACILITY, type + "_" + category);
+	if (officeSpace != null) {
+	    String officeID = officeSpace.getIdentifier().toString();
+	    // Populating KnowledgeGraph with OfficeSpace information
+	    for (Iterator<OfficeSpace> itr = getOfficeList(AUTHTOKEN).iterator(); itr.hasNext();) {
+		OfficeSpace office = (OfficeSpace) itr.next();
+		// adding Facility Type and Category
+		if (office.getFacility() != null) {
+		    
+		    String type = new String();
+		    if (office.getFacility().getType().equals(FacilityType.HOME))
+			type = "HOME";
 		    else
-			addKnowledgeNode(office.getIdentifier().toString(), FACILITY, type);
-	    }
-	    // adding rating
-	    //addKnowledgeNode(office.getIdentifier().toString(), RATING, office.getr);
-	    // adding OfficeSpace latitude and longitude
-	    String lat = String.valueOf(Math.round(office.getLocation().getLat()));
-	    String lon = String.valueOf(Math.round(office.getLocation().getLon()));
-	    addKnowledgeNode(office.getIdentifier().toString(), LAT_LONG, lat + "_" + lon);
-	    // adding OfficeSpace CommonAccess
-	    for (Iterator<CommonAccess> commonAccessItr = office.getCommonAccess().iterator(); commonAccessItr.hasNext();) {
-		CommonAccess ca = commonAccessItr.next();
-		addKnowledgeNode(office.getIdentifier().toString(), COMMONACCESS, ca.getName());
-	    }
-	    // adding OfficeSpace Features
-	    for (Iterator<Feature> featureItr = office.getFeature().iterator(); featureItr.hasNext();) {
-		Feature feature = featureItr.next();
-		addKnowledgeNode(office.getIdentifier().toString(), FEATURE, feature.getName());
+			type = "GARAGE";
+		    
+		    String category = office.getFacility().getCategory();
+		    if (type != null)
+			if (category != null)
+			    addKnowledgeNode(officeID, FACILITY, type + "_" + category);
+			else
+			    addKnowledgeNode(officeID, FACILITY, type);
+		}
+		// adding rating
+		for (Iterator<Rating> ratingItrItr = office.getRatingList().iterator(); ratingItrItr.hasNext();) {
+		    Rating rating = ratingItrItr.next();
+		    addKnowledgeNode(officeID, RATING, String.valueOf(rating.getStars()));
+		}
+		// adding OfficeSpace latitude and longitude
+		String lat = String.valueOf(Math.round(office.getLocation().getLat()));
+		String lon = String.valueOf(Math.round(office.getLocation().getLon()));
+		addKnowledgeNode(office.getIdentifier().toString(), LAT_LONG, lat + "_" + lon);
+		// adding OfficeSpace CommonAccess
+		for (Iterator<CommonAccess> commonAccessItr = office .getCommonAccess().iterator(); commonAccessItr.hasNext();) {
+		    CommonAccess ca = commonAccessItr.next();
+		    addKnowledgeNode(officeID, COMMONACCESS, ca.getName());
+		}
+		// adding OfficeSpace Features
+		for (Iterator<Feature> featureItr = office.getFeature().iterator(); featureItr.hasNext();) {
+		    Feature feature = featureItr.next();
+		    addKnowledgeNode(officeID,FEATURE, feature.getName());
+		}
 	    }
 	}
-	System.out.println("---End Updating Knowledge Graph---\n");
     }
     
     private void addKnowledgeNode(String subject, String predicate, String object) {

@@ -34,6 +34,9 @@ import cscie97.asn2.sharedesk.provider.Rating;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
+ * Importer class that takes a YAML formatted document information and calls SquareDesk
+ * services in order to store all data gathered into Renter class instances.
+ * 
  * @author Carlos Daniel Carreon Guzman
  *
  */
@@ -100,8 +103,7 @@ public class RenterImporter {
 		    ie.setDescription("YAML document is malformed.");
 		    throw ie;
 		} else {
-		    LinkedHashMap<Object, Object> data = (LinkedHashMap<Object, Object>) yamlMap
-			    .get(PROFILE);
+		    LinkedHashMap<Object, Object> data = (LinkedHashMap<Object, Object>) yamlMap.get(PROFILE);
 
 		    if (!validInput(data)) {
 			ie.setDescription("User role is different from Renter.");
@@ -128,42 +130,33 @@ public class RenterImporter {
 			    renter.setPicture(picture);
 			}
 			// Account
-			LinkedHashMap<Object, Object> accountMap = (LinkedHashMap<Object, Object>) data
-				.get(ACCOUNT);
+			LinkedHashMap<Object, Object> accountMap = (LinkedHashMap<Object, Object>) data.get(ACCOUNT);
 			if (validInput(accountMap)) {
 			    Account account = new Account();
 			    account.setPayPal(accountMap.get(PAYPAL).toString());
 			    renter.setAccount(account);
 			}
 			// Ratings List
-			ArrayList<LinkedHashMap<String, Object>> ratingsArray = (ArrayList<LinkedHashMap<String, Object>>) data
-				.get(RATINGS);
+			ArrayList<LinkedHashMap<String, Object>> ratingsArray = (ArrayList<LinkedHashMap<String, Object>>) data.get(RATINGS);
 			if (validInput(ratingsArray)) {
-			    Iterator<LinkedHashMap<String, Object>> ratingsItr = ratingsArray
-				    .iterator();
+			    Iterator<LinkedHashMap<String, Object>> ratingsItr = ratingsArray.iterator();
 			    List<Rating> ratingList = new ArrayList<Rating>();
 			    while (ratingsItr.hasNext()) {
 				// Rating
-				LinkedHashMap<String, Object> ratingMap = ratingsItr
-					.next();
+				LinkedHashMap<String, Object> ratingMap = ratingsItr.next();
 				if (validInput(ratingMap)) {
 				    Rating rating = new Rating();
 				    if (validInput(ratingMap.get(AUTHORSID)))
-					rating.setAuthorsId(ratingMap.get(
-						AUTHORSID).toString());
+					rating.setAuthorsId(ratingMap.get(AUTHORSID).toString());
 
 				    if (validInput(ratingMap.get(COMMENT)))
-					rating.setComment(ratingMap
-						.get(COMMENT).toString());
+					rating.setComment(ratingMap.get(COMMENT).toString());
 
 				    if (validInput(ratingMap.get(DATE)))
-					rating.setDate(Date.valueOf(ratingMap
-						.get(DATE).toString()));
+					rating.setDate(Date.valueOf(ratingMap.get(DATE).toString()));
 
 				    if (validInput(ratingMap.get(STARS)))
-					rating.setStars(Integer
-						.valueOf(ratingMap.get(STARS)
-							.toString()));
+					rating.setStars(Integer.valueOf(ratingMap.get(STARS).toString()));
 
 				    ratingList.add(rating);
 				}
@@ -174,60 +167,48 @@ public class RenterImporter {
 			OfficeSpace officeToFind = null;
 
 			// Search Criteria
-			LinkedHashMap<Object, Object> searchCriteriaMap = (LinkedHashMap<Object, Object>) data
-				.get(SEARCHCRITERIA);
+			LinkedHashMap<Object, Object> searchCriteriaMap = (LinkedHashMap<Object, Object>) data.get(SEARCHCRITERIA);
 			if (validInput(searchCriteriaMap)) {
-
 			    officeToFind = new OfficeSpace();
 			    // Start Date
 			    if (validInput(searchCriteriaMap.get(STARTDATE))) {
-				System.out.println(searchCriteriaMap
-					.get(STARTDATE));
+				//System.out.println(searchCriteriaMap.get(STARTDATE));
 			    }
 			    // End Date
 			    if (validInput(searchCriteriaMap.get(ENDDATE)))
-				System.out.println(searchCriteriaMap
-					.get(ENDDATE));
+				//System.out.println(searchCriteriaMap.get(ENDDATE));
 			    // Facility and Category
 			    if (validInput(searchCriteriaMap.get(FACILITY))) {
 				Facility facility = new Facility();
-				if (searchCriteriaMap.get(FACILITY).toString()
-					.equals("HOME"))
+				if (searchCriteriaMap.get(FACILITY).toString().equals("HOME"))
 				    facility.setType(FacilityType.HOME);
 				else
 				    facility.setType(FacilityType.HOME);
 
 				if (validInput(searchCriteriaMap.get(CATEGORY))) {
-				    facility.setCategory(searchCriteriaMap.get(
-					    CATEGORY).toString());
+				    facility.setCategory(searchCriteriaMap.get(CATEGORY).toString());
 				    officeToFind.setFacility(facility);
 				}
 				officeToFind.setFacility(facility);
 			    } else {
 				if (validInput(searchCriteriaMap.get(CATEGORY))) {
 				    Facility facility = new Facility();
-				    facility.setCategory(searchCriteriaMap.get(
-					    CATEGORY).toString());
+				    facility.setCategory(searchCriteriaMap.get(CATEGORY).toString());
 				    officeToFind.setFacility(facility);
 				}
 			    }
 			    // Minimum Average Rating
 			    if (validInput(searchCriteriaMap.get(MINAVGRATING))) {
 				Rating rating = new Rating();
-				rating.setStars(Integer
-					.valueOf(searchCriteriaMap.get(
-						MINAVGRATING).toString()));
+				rating.setStars(Integer.valueOf(searchCriteriaMap.get(MINAVGRATING).toString()));
 				List<Rating> ratingList = new ArrayList<Rating>();
 				ratingList.add(rating);
 				officeToFind.setRatingList(ratingList);
 			    }
 			    // Features
-			    ArrayList<String> featureArray = (ArrayList<String>) searchCriteriaMap
-				    .get(FEATURE);
-			    System.out.println(validInput(featureArray));
+			    ArrayList<String> featureArray = (ArrayList<String>) searchCriteriaMap.get(FEATURE);
 			    if (validInput(featureArray)) {
-				Iterator<String> featureItr = featureArray
-					.iterator();
+				Iterator<String> featureItr = featureArray.iterator();
 				Set<Feature> featureList = new HashSet<Feature>();
 				while (featureItr.hasNext()) {
 				    String strFeature = featureItr.next();
@@ -240,21 +221,17 @@ public class RenterImporter {
 				officeToFind.setFeature(featureList);
 			    }
 			    // Location
-			    LinkedHashMap<String, Object> locationMap = (LinkedHashMap<String, Object>) searchCriteriaMap
-				    .get(LOCATION);
+			    LinkedHashMap<String, Object> locationMap = (LinkedHashMap<String, Object>) searchCriteriaMap.get(LOCATION);
 			    if (locationMap != null && locationMap.size() > 0) {
 				Location location = new Location();
 				// Latitude
 				if (validInput(locationMap.get(LAT)))
-				    location.setLat(Double.parseDouble(String
-					    .valueOf(locationMap.get(LAT))));
+				    location.setLat(Double.parseDouble(String.valueOf(locationMap.get(LAT))));
 				// Longitude
 				if (validInput(locationMap.get(LONG)))
-				    location.setLon(Double.parseDouble(String
-					    .valueOf(locationMap.get(LONG))));
+				    location.setLon(Double.parseDouble(String.valueOf(locationMap.get(LONG))));
 				// Address
-				LinkedHashMap<String, String> addressMap = (LinkedHashMap<String, String>) locationMap
-					.get(ADDRESS);
+				LinkedHashMap<String, String> addressMap = (LinkedHashMap<String, String>) locationMap.get(ADDRESS);
 				if (addressMap != null && addressMap.size() > 0) {
 				    // City
 				    Address address = new Address();
@@ -262,51 +239,50 @@ public class RenterImporter {
 					address.setCity(addressMap.get(CITY));
 				    // Country Code
 				    if (validInput(addressMap.get(COUNTRYCODE)))
-					address.setCountryCode(addressMap
-						.get(COUNTRYCODE));
+					address.setCountryCode(addressMap.get(COUNTRYCODE));
 				    // State
 				    if (validInput(addressMap.get(STATE)))
 					address.setState(addressMap.get(STATE));
 				    // Street 1
 				    if (validInput(addressMap.get(STREET1)))
-					address.setStreet1(addressMap
-						.get(STREET1));
+					address.setStreet1(addressMap.get(STREET1));
 				    // Street 2
 				    if (validInput(addressMap.get(STREET2)))
-					address.setStreet2(addressMap.get(
-						STREET2).toString());
+					address.setStreet2(addressMap.get(STREET2).toString());
 				    // ZipCode
 				    if (validInput(addressMap.get(ZIPCODE)))
-					address.setZipCode(String
-						.valueOf(addressMap
-							.get(ZIPCODE)));
+					address.setZipCode(String.valueOf(addressMap.get(ZIPCODE)));
 				    location.setAddress(address);
 				}
 				officeToFind.setLocation(location);
 			    }
 			}
 
+			rsi.createRenter(AUTHTOKEN, renter);
+			System.out.println("Document imported succesfully.\n");
+			
 			if (officeToFind != null) {
-			    SearchEngineImpl se = SearchEngineImpl
-				    .getInstance();
+			    SearchEngineImpl se = SearchEngineImpl.getInstance();
 			    try {
+				System.out.println("---Calling SearchEngine services---\n");
 				System.out.println("--Search by Feature--");
 				se.searchByFeature(officeToFind);
 
-				System.out
-					.println("--Search by Facility Category--");
+				System.out.println("--Search by Facility Category--");
 				se.searchByFacilityCategory(officeToFind);
 
 				System.out.println("--Search by Location--");
 				se.searchByLocation(officeToFind);
+				
+				System.out.println("--Search by Rating--");
+				se.searchByRating(officeToFind);
+				
+				System.out.println("---Finishing SearchEngine services---.\n");
 
 			    } catch (SearchEngineException e) {
 				e.printStackTrace();
 			    }
 			}
-
-			rsi.createRenter(AUTHTOKEN, renter);
-			System.out.println("Document imported succesfully.\n");
 		    }
 		}
 	    }

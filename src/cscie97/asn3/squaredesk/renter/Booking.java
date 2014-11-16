@@ -3,13 +3,13 @@
  */
 package cscie97.asn3.squaredesk.renter;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
 /**
+ * Booking class hold information regarding bookings and its associations
+ * with Renter and OfficeSpaces.
  * @author Carlos Daniel Carreon Guzman
- *
  */
 public class Booking implements Comparable<Booking> {
 

@@ -4,6 +4,8 @@
 package cscie97.asn3.squaredesk.renter;
 
 /**
+ * General SearchEngine exception thrown when an error is shown in SearchEngine services. 
+ * 
  * @author Carlos Daniel Carreon Guzman
  *
  */

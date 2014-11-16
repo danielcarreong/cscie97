@@ -4,6 +4,7 @@
 package cscie97.asn3.squaredesk.renter;
 
 /**
+ * General BookinException. Description has to be set to give information about error thrown.
  * @author Carlos Daniel Carreon Guzman
  *
  */

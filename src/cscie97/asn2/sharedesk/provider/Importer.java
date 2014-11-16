@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -57,9 +59,11 @@ public class Importer {
     private static final String STREET2 = "street2";
     private static final String ZIPCODE = "zipcode";
     private static final String RATES = "rates";
+    private static final String RATE = "rate";
     private static final String COST = "cost";
     private static final String PERIOD = "period";
     private static final String RATINGS = "ratings";
+    private static final String RATING = "rating";
     private static final String AUTHORSID = "authorsId";
     private static final String COMMENT = "comment";
     private static final String DATE = "date";
@@ -277,22 +281,27 @@ public class Importer {
 					officeSpace.setLocation(location);
 				    }
 				    // Rates List
-				    ArrayList<LinkedHashMap<String, String>> ratesArray = (ArrayList<LinkedHashMap<String, String>>) officeSpaceMap.get(RATES);
+				    ArrayList<LinkedHashMap<String, Object>> ratesArray = (ArrayList<LinkedHashMap<String, Object>>) officeSpaceMap.get(RATES);
+				    
 				    if (validInput(ratesArray)) {
-					Iterator<LinkedHashMap<String, String>> ratesItr = ratesArray.iterator();
+					
+					Iterator<LinkedHashMap<String, Object>> ratesItr = ratesArray.iterator();
 					List<Rate> rateList = new ArrayList<Rate>();
+					
 					while(ratesItr.hasNext()) {
 					    
-					    LinkedHashMap<String, String> rateMap = (LinkedHashMap<String, String>) ratesItr.next();
+					    LinkedHashMap<String, Object> rateNode = (LinkedHashMap<String, Object>) ratesItr.next();
 					    
-					    if (validInput(rateMap)) {
+					    if (validInput(rateNode)) {
+						
+						LinkedHashMap<String, String> rateMap = (LinkedHashMap<String, String>) rateNode.get(RATE);
 						Rate rate = new Rate();
 						
 						if (validInput(rateMap.get(COST)))
-						    rate.setCost(rateMap.get(COST));
+						    rate.setCost(rateMap.get(COST).toString());
 						
 						if (validInput(rateMap.get(PERIOD))) {
-						    String strPeriod = rateMap.get(PERIOD);
+						    String strPeriod = rateMap.get(PERIOD).toString();
 						    if (strPeriod.equalsIgnoreCase("hour"))
 							rate.setPeriod(RateType.HOUR);
 						    else if (strPeriod.equalsIgnoreCase("day"))
@@ -311,14 +320,19 @@ public class Importer {
 				    }
 				    // Ratings List
 				    ArrayList<LinkedHashMap<String, Object>> ratingsArray = (ArrayList<LinkedHashMap<String, Object>>) officeSpaceMap.get(RATINGS);
+				    
 				    if (validInput(ratingsArray)) {
+					
 					Iterator<LinkedHashMap<String, Object>> ratingsItr = ratingsArray.iterator();
 					List<Rating> ratingList = new ArrayList<Rating>();
+					
 					while(ratingsItr.hasNext()) {
 					    // Rating
-					    LinkedHashMap<String, Object> ratingMap = ratingsItr.next();
+					    LinkedHashMap<String, Object> ratingNode = ratingsItr.next();
 					    
-					    if (validInput(ratingMap)) {
+					    if (validInput(ratingNode)) {
+						
+						LinkedHashMap<String, Object> ratingMap = (LinkedHashMap<String, Object>) ratingNode.get(RATING);
 						Rating rating = new Rating();
 						
 						if (validInput(ratingMap.get(AUTHORSID)))
@@ -327,11 +341,16 @@ public class Importer {
 						if (validInput(ratingMap.get(COMMENT)))
 						    rating.setComment(ratingMap.get(COMMENT).toString());
 						
-						if (validInput(ratingMap.get(DATE)))
-						    rating.setDate(Date.valueOf(ratingMap.get(DATE).toString()));
+						if (validInput(ratingMap.get(DATE))) {
+						    try {
+							rating.setDate(new SimpleDateFormat("MM/dd/yyyy").parse((String)ratingMap.get(DATE)));
+						    } catch (ParseException e) {
+							e.printStackTrace();
+						    }
+						}
 						
 						if (validInput(ratingMap.get(STARS)))
-						    rating.setStars(Integer.valueOf(ratingMap.get(STARS).toString()));
+						    rating.setStars((Integer)ratingMap.get(STARS));
 						
 						ratingList.add(rating);
 					    }

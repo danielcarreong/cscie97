@@ -4,8 +4,8 @@
 package cscie97.asn3.squaredesk.renter;
 
 /**
+ * Boooking exception thrown when a boooking record already exists in the application.
  * @author Carlos Daniel Carreon Guzman
- *
  */
 public class BookingAlreadyExistsException extends BookingException {
 

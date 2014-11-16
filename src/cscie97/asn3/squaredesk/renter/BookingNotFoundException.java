@@ -4,6 +4,7 @@
 package cscie97.asn3.squaredesk.renter;
 
 /**
+ * Boooking exception thrown when a Booking record is not found.
  * @author Carlos Daniel Carreon Guzman
  *
  */
