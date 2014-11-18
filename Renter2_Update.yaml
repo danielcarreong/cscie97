@@ -1,0 +1,7 @@
+﻿renter: 
+  account: 
+    payPalAccountNumber: 1234567890
+  contact: john@goat.com
+  name: John Goat
+  picture: "http://thumbs.media.smithsonianmag.com//filer/b9/d2/b9d271f3-7f66-4132-b5af-7d33844505b7/goat.jpg__800x600_q85_crop.jpg"
+  gender: male
