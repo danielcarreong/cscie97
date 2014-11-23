@@ -99,7 +99,7 @@ public class TestDriver {
 	    booking.setRenterID(renterToUpdate.getIdentifier());
 	    booking.setStartDate(format.parse(sdate));
 	    booking.setEndDate(format.parse(edate));
-	    ssi.createBooking(booking);
+	    ssi.createBooking(authToken, booking);
 	    
 	    // Forces booking with same date
 	    System.out.println("---Forcing a booking to be made with same date---");
@@ -108,7 +108,7 @@ public class TestDriver {
 	    booking2.setRenterID(renterToUpdate.getIdentifier());
 	    booking2.setStartDate(format.parse(sdate));
 	    booking2.setEndDate(format.parse(edate));
-	    ssi.createBooking(booking2);
+	    ssi.createBooking(authToken, booking2);
 
 	} catch (Exception e) {
 	    e.printStackTrace();

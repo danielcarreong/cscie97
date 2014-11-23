@@ -7,7 +7,7 @@ package cscie97.asn4.squaredesk.authentication;
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public abstract class Entitlement {
+public abstract class Entitlement implements Visitable {
 
     private String entitlementID;
     private String name;
@@ -49,5 +49,24 @@ public abstract class Entitlement {
     public void setEntitlementID(String entitlementID) {
         this.entitlementID = entitlementID;
     }
+    @Override
+    public int hashCode() {
+	return entitlementID.hashCode();
+    }
     
+    @Override
+    public boolean equals(Object obj) {
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	if (!(obj instanceof Service))
+	    return false;
+	
+	Entitlement comparator = (Entitlement) obj;
+	if (!this.entitlementID.equalsIgnoreCase(comparator.entitlementID))
+	    return false;
+	
+	return true;
+    }
 }

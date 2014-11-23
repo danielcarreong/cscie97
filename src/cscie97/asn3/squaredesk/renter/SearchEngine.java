@@ -3,6 +3,7 @@
  */
 package cscie97.asn3.squaredesk.renter;
 
+import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.OfficeSpace;
 
 /**
@@ -13,50 +14,56 @@ import cscie97.asn2.sharedesk.provider.OfficeSpace;
  */
 public interface SearchEngine {
     /**
+     * @param authToken 
      * @param officeSpace
      * @return OfficeSpace
      * @throws SearchEngineException
+     * @throws AccessException 
      */
-    public OfficeSpace searchByFeature(OfficeSpace officeSpace)
-	    throws SearchEngineException;
+    public OfficeSpace searchByFeature(String authToken, OfficeSpace officeSpace) throws SearchEngineException, AccessException;
 
     /**
+     * @param authToken 
      * @param officeSpace
      * @return OfficeSpace
      * @throws SearchEngineException
+     * @throws AccessException 
      */
-    public OfficeSpace searchByLocation(OfficeSpace officeSpace)
-	    throws SearchEngineException;
+    public OfficeSpace searchByLocation(String authToken, OfficeSpace officeSpace) throws SearchEngineException, AccessException;
 
     /**
+     * @param authToken 
      * @param officeSpace
      * @return OfficeSpace
      * @throws SearchEngineException
+     * @throws AccessException 
      */
-    public OfficeSpace searchByFacilityCategory(OfficeSpace officeSpace)
-	    throws SearchEngineException;
+    public OfficeSpace searchByFacilityCategory(String authToken, OfficeSpace officeSpace) throws SearchEngineException, AccessException;
 
     /**
+     * @param authToken 
      * @param officeSpace
      * @return OfficeSpace
      * @throws SearchEngineException
+     * @throws AccessException 
      */
-    public OfficeSpace searchByRating(OfficeSpace officeSpace)
-	    throws SearchEngineException;
+    public OfficeSpace searchByRating(String authToken, OfficeSpace officeSpace) throws SearchEngineException, AccessException;
 
     /**
+     * @param authToken 
      * @param officeSpace
      * @return OfficeSpace
      * @throws SearchEngineException
+     * @throws AccessException 
      */
-    public OfficeSpace searchByDate(OfficeSpace officeSpace)
-	    throws SearchEngineException;
+    public OfficeSpace searchByDate(String authToken, OfficeSpace officeSpace) throws SearchEngineException, AccessException;
 
     /**
+     * @param authToken 
      * @param officeSpace
      * @return OfficeSpace
      * @throws SearchEngineException
+     * @throws AccessException 
      */
-    public OfficeSpace searchByCommonAccess(OfficeSpace officeSpace)
-	    throws SearchEngineException;
+    public OfficeSpace searchByCommonAccess(String authToken, OfficeSpace officeSpace) throws SearchEngineException, AccessException;
 }

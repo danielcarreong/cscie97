@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class Service {
+public class Service implements Visitable {
 
     private String serviceID;
     private String name;
@@ -86,5 +86,13 @@ public class Service {
 	    return false;
 	
 	return true;
+    }
+    /* (non-Javadoc)
+     * @see cscie97.asn4.squaredesk.authentication.Visitable#acceptVisitor(cscie97.asn4.squaredesk.authentication.Visitor)
+     */
+    @Override
+    public void acceptVisitor(Visitor visitor) {
+	visitor.visit(this);
+	
     }
 }

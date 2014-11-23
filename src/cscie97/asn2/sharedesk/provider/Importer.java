@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractList;
@@ -77,6 +76,7 @@ public class Importer {
      * @throws OfficeSpaceException 
      * @throws ProviderAlreadyExistException 
      */
+    @SuppressWarnings("unchecked")
     public void importYamlFile(String fileName) throws ImportException, AccessException, ProviderException, OfficeSpaceException {
 	
 	ProviderServiceImpl sds = ProviderServiceImpl.getInstance();
@@ -383,6 +383,7 @@ public class Importer {
         }
     }
     
+    @SuppressWarnings("unchecked")
     private boolean validInput(Object obj) {
 	
 	if (obj instanceof String) {

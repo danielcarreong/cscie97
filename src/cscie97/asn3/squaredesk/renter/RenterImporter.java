@@ -16,7 +16,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -80,6 +79,7 @@ public class RenterImporter {
      * @throws RenterException
      * @throws RenterAlreadyExistException
      */
+    @SuppressWarnings("unchecked")
     public void importYamlFile(String fileName) throws ImportException,
 	    AccessException, RenterException {
 
@@ -109,11 +109,8 @@ public class RenterImporter {
 			ie.setDescription("User role is different from Renter.");
 			throw ie;
 		    } else {
-			UUID identifier = null;
 			// Renter
 			renter = new Renter();
-			identifier = UUID.randomUUID();
-			renter.setIdentifier(identifier);
 
 			if (validInput(data.get(NAME)))
 			    renter.setName(data.get(NAME).toString());
@@ -266,16 +263,16 @@ public class RenterImporter {
 			    try {
 				System.out.println("---Calling SearchEngine services---\n");
 				System.out.println("--Search by Feature--");
-				se.searchByFeature(officeToFind);
+				se.searchByFeature(AUTHTOKEN, officeToFind);
 
 				System.out.println("--Search by Facility Category--");
-				se.searchByFacilityCategory(officeToFind);
+				se.searchByFacilityCategory(AUTHTOKEN, officeToFind);
 
 				System.out.println("--Search by Location--");
-				se.searchByLocation(officeToFind);
+				se.searchByLocation(AUTHTOKEN, officeToFind);
 				
 				System.out.println("--Search by Rating--");
-				se.searchByRating(officeToFind);
+				se.searchByRating(AUTHTOKEN, officeToFind);
 				
 				System.out.println("---Finishing SearchEngine services---.\n");
 
@@ -299,6 +296,7 @@ public class RenterImporter {
 	}
     }
 
+    @SuppressWarnings("unchecked")
     private boolean validInput(Object obj) {
 
 	if (obj instanceof String) {

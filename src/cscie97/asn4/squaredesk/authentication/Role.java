@@ -28,4 +28,11 @@ public class Role extends Entitlement {
         this.entitlementMap = entitlementMap;
     }
 
+    /* (non-Javadoc)
+     * @see cscie97.asn4.squaredesk.authentication.Visitable#acceptVisitor(cscie97.asn4.squaredesk.authentication.Visitor)
+     */
+    @Override
+    public void acceptVisitor(Visitor visitor) {
+	visitor.visit(this);
+    }
 }

@@ -10,7 +10,7 @@ package cscie97.asn4.squaredesk.authentication;
  * @author Carlos Daniel Carreon Guzman
  *
  */
-public class Credential {
+public class Credential implements Visitable {
 
    private String credentialID;
    private String username;
@@ -51,5 +51,12 @@ public class Credential {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+    /* (non-Javadoc)
+     * @see cscie97.asn4.squaredesk.authentication.Visitable#acceptVisitor(cscie97.asn4.squaredesk.authentication.Visitor)
+     */
+    @Override
+    public void acceptVisitor(Visitor visitor) {
+	visitor.visit(this);
     }
 }

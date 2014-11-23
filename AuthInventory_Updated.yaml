@@ -1,0 +1,223 @@
+Service:
+  ServiceID: renter_service
+  Name: Renter Service
+  Description: Renter Management and Access
+  Permission:
+    EntitlementID: search_for_office_space
+    Name: Search for Office Space Permission
+    Description: Permission to search for office space
+  Permission:
+    EntitlementID: create_booking
+    Name: Create Booking Permission
+    Description: Permission to create an office space booking
+  Permission:
+    EntitlementID: create_renter
+    Name: Create Renter Permission
+    Description: Permission to create a new renter
+  Permission:
+    EntitlementID: delete_renter
+    Name: Deletes a Renter
+    Description: Deletes a Renter record from application.
+  Permission:
+    EntitlementID: get_renter_list
+    Name: Get Renter List
+    Description: Retrieves Renters List.
+Service:
+  ServiceID: provider_api_service
+  Name: Provider API Service
+  Description: Provider and Office Space Management
+  Permission:
+    EntitlementID: create_provider
+    Name: Create Provider Permission
+    Description: Permission to create a new provider
+  Permission:
+    EntitlementID: update_provider
+    Name: Update Provider Permission
+    Description: Permission to update a provider
+  Permission:
+    EntitlementID: update_office_space
+    Name: Update Office Space Permission
+    Description: Permission to update an office space
+  Permission:
+    EntitlementID: create_office_space
+    Name: Create Office Space Permission
+    Description: Permission to create a new office space
+Service:
+  ServiceID: authentication_service
+  Name: Authentication Service
+  Description: Manage Authentication Configuration and Control Access to Restricted Service Interfaces
+  Permission:
+    EntitlementID: define_permission
+    Name: Define Permission Permission
+    Description: Permission to create a new permission
+  Permission:
+    EntitlementID: add_entitlement_to_user
+    Name: Add Entitlement to User Permission
+    Description: Permission to add entitlements to a user
+  Permission:
+    EntitlementID: add_credential_to_user
+    Name: Add Credential to User Permission
+    Description: Permission to add credentials to a user
+  Permission:
+    EntitlementID: define_service
+    Name: Define Service Permission
+    Description: Permission to create a new service
+  Permission:
+    EntitlementID: create_user
+    Name: Create User Permission
+    Description: Permission to create create a user
+  Permission:
+    EntitlementID: add_entitlement_to_role
+    Name: Add entitlement to role
+    Description: Permission to add an entitlement to a role
+  Permission:
+    EntitlementID: define_role
+    Name: Define Role Permission
+    Description: Permission to create a new role
+Role:
+  EntitlementID: sd_admin_role
+  Name: SD Admin
+  Description: Role for Square Desk Admins
+  Permission:
+    EntitlementID: define_permission
+    Name: Define Permission Permission
+    Description: Permission to create a new permission
+  Permission:
+    EntitlementID: add_entitlement_to_user
+    Name: Add Entitlement to User Permission
+    Description: Permission to add entitlements to a user
+  Permission:
+    EntitlementID: add_credential_to_user
+    Name: Add Credential to User Permission
+    Description: Permission to add credentials to a user
+  Permission:
+    EntitlementID: define_service
+    Name: Define Service Permission
+    Description: Permission to create a new service
+  Permission:
+    EntitlementID: create_user
+    Name: Create User Permission
+    Description: Permission to create create a user
+  Permission:
+    EntitlementID: define_role
+    Name: Define Role Permission
+    Description: Permission to create a new role
+Role:
+  EntitlementID: provider_role
+  Name: Provider Role
+  Description: Role for Providers
+  Permission:
+    EntitlementID: create_provider
+    Name: Create Provider Permission
+    Description: Permission to create a new provider
+  Permission:
+    EntitlementID: update_provider
+    Name: Update Provider Permission
+    Description: Permission to update a provider
+  Permission:
+    EntitlementID: update_office_space
+    Name: Update Office Space Permission
+    Description: Permission to update an office space
+  Permission:
+    EntitlementID: create_office_space
+    Name: Create Office Space Permission
+    Description: Permission to create a new office space
+Role:
+  EntitlementID: renter_role
+  Name: Renter Role
+  Description: Role for Renters
+  Permission:
+    EntitlementID: search_for_office_space
+    Name: Search for Office Space Permission
+    Description: Permission to search for office space
+  Permission:
+    EntitlementID: create_booking
+    Name: Create Booking Permission
+    Description: Permission to create an office space booking
+  Permission:
+    EntitlementID: create_renter
+    Name: Create Renter Permission
+    Description: Permission to create a new renter
+  Permission:
+    EntitlementID: delete_renter
+    Name: Deletes a Renter
+    Description: Deletes a Renter record from application.
+  Permission:
+    EntitlementID: get_renter_list
+    Name: Get Renter List
+    Description: Retrieves Renters List.
+Role:
+  EntitlementID: authentication_admin_role
+  Name: Authentication Admin Role
+  Description: Role for Authentication Administrator
+  Permission:
+    EntitlementID: define_permission
+    Name: Define Permission Permission
+    Description: Permission to create a new permission
+  Permission:
+    EntitlementID: add_entitlement_to_user
+    Name: Add Entitlement to User Permission
+    Description: Permission to add entitlements to a user
+  Permission:
+    EntitlementID: add_credential_to_user
+    Name: Add Credential to User Permission
+    Description: Permission to add credentials to a user
+  Permission:
+    EntitlementID: define_service
+    Name: Define Service Permission
+    Description: Permission to create a new service
+  Permission:
+    EntitlementID: create_user
+    Name: Create User Permission
+    Description: Permission to create create a user
+  Permission:
+    EntitlementID: define_role
+    Name: Define Role Permission
+    Description: Permission to create a new role
+User:
+  ID: sd_admin_user
+  Name: Square Desk Admin
+  Role:
+    ID: sd_admin_role
+    Name: SD Admin
+    Description: Role for Square Desk Admins
+  Credential:
+    Username: sam2
+    Password: 28f57dd769032e2ebb9b80de14271199
+  Credential:
+    Username: sam
+    Password: 8017488b14f5263c9414333e4dafd421
+User:
+  ID: renter_user
+  Name: Renter User
+  Role:
+    ID: renter_role
+    Name: Renter Role
+    Description: Role for Renters
+  Credential:
+    Username: lucy
+    Password: 49be072066bcaf255c89415034eaac99
+  Session:
+    AuthToken: 51c8d83d-ff97-4aaa-9397-578502cc955f
+    TimeStamp: Sun Nov 23 17:40:05 CST 2014
+    Valid: false
+User:
+  ID: authentication_admin_user
+  Name: Authentication Admin
+  Role:
+    ID: authentication_admin_role
+    Name: Authentication Admin Role
+    Description: Role for Authentication Administrator
+  Credential:
+    Username: jill
+    Password: c639bf8153d35ab6f3548ce6155759c9
+User:
+  ID: provider_user
+  Name: Provider User
+  Role:
+    ID: provider_role
+    Name: Provider Role
+    Description: Role for Providers
+  Credential:
+    Username: joe
+    Password: 63eb4646e8c93c335bdc9542cbf80b41

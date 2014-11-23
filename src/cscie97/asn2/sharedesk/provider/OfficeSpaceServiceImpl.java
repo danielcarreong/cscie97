@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import cscie97.asn1.knowledge.engine.KnowledgeGraph;
+import cscie97.asn4.squaredesk.authentication.AuthenticationException;
+import cscie97.asn4.squaredesk.authentication.AuthenticationServiceImpl;
 
 /**
  * Class implementation of OfficeSpaceService interface provided as a singleton pattern in order to keep
@@ -24,8 +26,9 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 
     private static OfficeSpaceServiceImpl singleton = new OfficeSpaceServiceImpl();
     private Map<UUID, OfficeSpace> officeMap;
-    private static final String AUTHTOKEN = "admin";
+    //private static final String AUTHTOKEN = "admin";
     private KnowledgeGraph kg = KnowledgeGraph.getInstance();
+    private AuthenticationServiceImpl asi = AuthenticationServiceImpl.getInstance();
     
     private String FEATURE = "has_feature";
     private String COMMONACCESS = "has_common_access";
@@ -51,7 +54,7 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
      */
     public OfficeSpace createOffice(String authToken, OfficeSpace office) throws OfficeSpaceAlreadyExistException, AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("create_office_space", authToken)) {
 	    if (officeMap.containsValue(office)) {
 		OfficeSpaceAlreadyExistException ex = new OfficeSpaceAlreadyExistException();
 		ex.setDescription("Office Space name: " + office.getName() + " already exists in our records. Please define a different one.\n");
@@ -73,7 +76,7 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
      * @throws AccessException 
      */
     public OfficeSpace updateOffice(String authToken, OfficeSpace office) throws AccessException {
-	if (authorization(authToken)) {
+	if (authorization("update_office_space", authToken)) {
 	    if (officeMap.containsValue(office)) {
 		// when updating OfficeSpaces: if OfficeSpace already exists, simply put instance in Map, this will
 		// automatically update object as long it is referenced by the same Key (OfficeSpace ID)
@@ -91,7 +94,7 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
      */
     public void deleteOffice(String authToken, OfficeSpace office) throws OfficeSpaceNotFoundException, AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("delete_office_space", authToken)) {
 	    if (!officeMap.containsValue(office) || office.getIdentifier().equals("")) {
 		OfficeSpaceNotFoundException ex = new OfficeSpaceNotFoundException();
 		ex.setDescription("Office Space: " + office.getName() + " was not found in our records.\n");
@@ -121,7 +124,7 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
      */
     public OfficeSpace getOffice(String authToken, UUID identifier) throws OfficeSpaceNotFoundException, AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("get_office_space", authToken)) {
 	    if (!officeMap.containsKey(identifier)) {
 		OfficeSpaceNotFoundException ex = new OfficeSpaceNotFoundException();
 		ex.setDescription("OfficeSpace with identifier: " + identifier + " does not exists in our records.\n");
@@ -139,36 +142,18 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
      */
     public List<OfficeSpace> getOfficeList(String authToken) throws AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("get_office_space_list", authToken)) {
 	    if (officeMap.size() > 0)
 		return new ArrayList<OfficeSpace> (officeMap.values());
 	}
 	return null;
-    }
-    /**
-     * 
-     * @param authToken
-     * @return
-     * @throws AccessException
-     */
-    private boolean authorization(String authToken) throws AccessException {
-	
-	AccessException accessEx = new AccessException();
-	if (authToken == null || authToken.length() == 0) {
-	    accessEx.setDescription("An Authorization Token must be specified.\n");
-	    throw accessEx;
-	} else if (!authToken.equalsIgnoreCase(AUTHTOKEN)) {
-	    accessEx.setDescription("Authorization Token is invalid.\n");
-	    throw accessEx;
-	} else
-	    return true;
     }
     
     private void updateKnowledgeGraph(OfficeSpace officeSpace) throws AccessException {
 	if (officeSpace != null) {
 	    String officeID = officeSpace.getIdentifier().toString();
 	    // Populating KnowledgeGraph with OfficeSpace information
-	    for (Iterator<OfficeSpace> itr = getOfficeList(AUTHTOKEN).iterator(); itr.hasNext();) {
+	    for (Iterator<OfficeSpace> itr = officeMap.values().iterator(); itr.hasNext();) {
 		OfficeSpace office = (OfficeSpace) itr.next();
 		// adding Facility Type and Category
 		if (office.getFacility() != null) {
@@ -214,5 +199,19 @@ public class OfficeSpaceServiceImpl implements OfficeSpaceService {
 		    kg.getNode(subject),
 		    kg.getPredicate(predicate),
 		    kg.getNode(object)));
+    }
+    /**
+     * 
+     * @param authToken
+     * @return
+     * @throws AccessException
+     */
+    private boolean authorization(String serviceName, String authToken) throws AccessException {
+	try {
+	    return asi.checkAccess(serviceName, authToken);
+	} catch (AuthenticationException e) {
+	    e.printStackTrace();
+	}
+	return false;
     }
 }

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import cscie97.asn4.squaredesk.authentication.AuthenticationException;
+import cscie97.asn4.squaredesk.authentication.AuthenticationServiceImpl;
+
 
 /**
  * Provides implementation for ProviderService interface. Implements singleton pattern for single instantiation
@@ -20,7 +23,7 @@ public class ProviderServiceImpl implements ProviderService {
     
     private static ProviderServiceImpl singleton = new ProviderServiceImpl();
     private Map<UUID, Provider> providerMap;
-    private static final String AUTHTOKEN = "admin";
+    //private static final String AUTHTOKEN = "admin";
     
     private ProviderServiceImpl() {
 	providerMap = new HashMap<UUID, Provider>();
@@ -52,7 +55,7 @@ public class ProviderServiceImpl implements ProviderService {
      */
     public Provider createProvider(String authToken, Provider provider) throws ProviderAlreadyExistException, AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("create_provider", authToken)) {
 	    if (providerMap.containsValue(provider)) {
 		ProviderAlreadyExistException ex = new ProviderAlreadyExistException();
 		ex.setDescription("Provider name: " + provider.getName() + " already exists in our records. Please define a different one.\n");
@@ -75,7 +78,7 @@ public class ProviderServiceImpl implements ProviderService {
      */
     public Provider createProvider(String authToken, String providerInputFile) throws ProviderAlreadyExistException, AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("create_provider", authToken)) {
 	    try {
 		importProviderFile(providerInputFile);
 	    } catch (ImportException | ProviderException | OfficeSpaceException e) {
@@ -93,7 +96,7 @@ public class ProviderServiceImpl implements ProviderService {
      */
     public Provider updateProvider(String authToken, Provider provider) throws AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("update_provider", authToken)) {
 	    if (providerMap.containsValue(provider)) {
 		//deleteProvider(authToken, oldProvider);
 		//return createProvider(authToken, newProvider);
@@ -115,7 +118,7 @@ public class ProviderServiceImpl implements ProviderService {
      */
     public void updateProvider(String authToken, Provider oldProvider, String newProviderInputFileName) throws AccessException, ImportException, ProviderException, OfficeSpaceException {
 	
-	if (authorization(authToken)) {
+	if (authorization("update_provider", authToken)) {
 	    if (providerMap.containsValue(oldProvider)) {
 		deleteProvider(authToken, oldProvider.getIdentifier());
 		importProviderFile(newProviderInputFileName);
@@ -131,7 +134,7 @@ public class ProviderServiceImpl implements ProviderService {
      */
     public void deleteProvider(String authToken, UUID providerID) throws ProviderNotFoundException, AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("delete_provider", authToken)) {
 	    if (!providerMap.containsKey(providerID)) {
 		ProviderNotFoundException ex = new ProviderNotFoundException();
 		ex.setDescription("Provider ID: " + providerID + " was not found in our records.\n");
@@ -167,7 +170,7 @@ public class ProviderServiceImpl implements ProviderService {
      */
     public Provider getProvider(String authToken, UUID identifier) throws ProviderNotFoundException, AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("get_provider", authToken)) {
 	    if (!providerMap.containsKey(identifier)) {
 		ProviderNotFoundException ex = new ProviderNotFoundException();
 		ex.setDescription("Identifier: " + identifier + " does not exists in our records.\n");
@@ -185,28 +188,25 @@ public class ProviderServiceImpl implements ProviderService {
      */
     public List<Provider> getProviderList(String authToken) throws AccessException {
 	
-	if (authorization(authToken)) {
+	if (authorization("get_provider_list", authToken)) {
 	    if (providerMap.size() > 0)
 		return new ArrayList<Provider> (providerMap.values());
 	}
 	return null;
-    }    
+    }
     /**
      * 
      * @param authToken
      * @return
      * @throws AccessException
      */
-    private boolean authorization(String authToken) throws AccessException {
-	
-	AccessException accessEx = new AccessException();
-	if (authToken == null || authToken.length() == 0) {
-	    accessEx.setDescription("An Authorization Token must be specified.\n");
-	    throw accessEx;
-	} else if (!authToken.equalsIgnoreCase(AUTHTOKEN)) {
-	    accessEx.setDescription("Authorization Token is invalid.\n");
-	    throw accessEx;
-	} else
-	    return true;
+    private boolean authorization(String serviceName, String authToken) throws AccessException {
+	try {
+	    AuthenticationServiceImpl asi = AuthenticationServiceImpl.getInstance();
+	    return asi.checkAccess(serviceName, authToken);
+	} catch (AuthenticationException e) {
+	    e.printStackTrace();
+	}
+	return false;
     }
 }

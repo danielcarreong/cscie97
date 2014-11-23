@@ -12,6 +12,8 @@ import java.util.UUID;
 import cscie97.asn2.sharedesk.provider.AccessException;
 import cscie97.asn2.sharedesk.provider.ImportException;
 import cscie97.asn3.squaredesk.renter.RenterImporter;
+import cscie97.asn4.squaredesk.authentication.AuthenticationException;
+import cscie97.asn4.squaredesk.authentication.AuthenticationServiceImpl;
 import cscie97.asn2.sharedesk.provider.Renter;
 
 /**
@@ -25,7 +27,7 @@ public class RenterServiceImpl implements RenterService {
 
     private static RenterServiceImpl singleton = new RenterServiceImpl();
     private Map<UUID, Renter> renterMap;
-    private static final String AUTHTOKEN = "admin";
+    //private static final String AUTHTOKEN = "admin";
 
     private RenterServiceImpl() {
 	renterMap = new HashMap<UUID, Renter>();
@@ -52,9 +54,8 @@ public class RenterServiceImpl implements RenterService {
      * , cscie97.asn2.sharedesk.provider.Renter)
      */
     @Override
-    public Renter createRenter(String authToken, Renter renter)
-	    throws RenterAlreadyExistException, AccessException {
-	if (authorization(authToken)) {
+    public Renter createRenter(String authToken, Renter renter) throws RenterAlreadyExistException, AccessException {
+	if (authorization("create_renter", authToken)) {
 	    if (renterMap.containsValue(renter)) {
 		RenterAlreadyExistException ex = new RenterAlreadyExistException();
 		ex.setDescription("Renter name: "
@@ -62,6 +63,7 @@ public class RenterServiceImpl implements RenterService {
 			+ " already exists in our records. Please define a different one.\n");
 		throw ex;
 	    } else {
+		renter.setIdentifier(UUID.randomUUID());
 		renterMap.put(renter.getIdentifier(), renter);
 		System.out.println("Renter: '" + renter.getName()
 			+ "' succesfully created.");
@@ -80,7 +82,7 @@ public class RenterServiceImpl implements RenterService {
      */
     public Renter createRenter(String authToken, String renterInputFile) throws RenterAlreadyExistException, AccessException {
 
-	if (authorization(authToken)) {
+	if (authorization("create_renter", authToken)) {
 	    try {
 		importRenterFile(renterInputFile);
 	    } catch (ImportException | RenterException e) {
@@ -100,7 +102,7 @@ public class RenterServiceImpl implements RenterService {
     @Override
     public Renter updateRenter(String authToken, Renter renter) throws AccessException {
 
-	if (authorization(authToken)) {
+	if (authorization("update_renter", authToken)) {
 	    if (renterMap.containsValue(renter)) {
 		return renterMap.put(renter.getIdentifier(), renter);
 	    } else
@@ -119,7 +121,7 @@ public class RenterServiceImpl implements RenterService {
      */
     public void updateRenter(String authToken, Renter oldRenter, String newRenterInputFileName) throws AccessException, ImportException, RenterException {
 
-	if (authorization(authToken)) {
+	if (authorization("update_renter", authToken)) {
 	    if (renterMap.containsValue(oldRenter)) {
 		deleteRenter(authToken, oldRenter.getIdentifier());
 		importRenterFile(newRenterInputFileName);
@@ -137,7 +139,7 @@ public class RenterServiceImpl implements RenterService {
     @Override
     public void deleteRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException {
 
-	if (authorization(authToken)) {
+	if (authorization("delete_renter", authToken)) {
 	    if (!renterMap.containsKey(renterID)) {
 		RenterNotFoundException ex = new RenterNotFoundException();
 		ex.setDescription("Renter ID: '" + renterID + "' was not found in our records.\n");
@@ -159,7 +161,7 @@ public class RenterServiceImpl implements RenterService {
      */
     @Override
     public Renter getRenter(String authToken, UUID renterID) throws RenterNotFoundException, AccessException {
-	if (authorization(authToken)) {
+	if (authorization("get_renter", authToken)) {
 	    if (!renterMap.containsKey(renterID)) {
 		RenterNotFoundException ex = new RenterNotFoundException();
 		ex.setDescription("Renter ID: " + renterID
@@ -181,29 +183,25 @@ public class RenterServiceImpl implements RenterService {
      */
     @Override
     public List<Renter> getRenterList(String authToken) throws AccessException {
-	if (authorization(authToken)) {
+	if (authorization("get_renter_list", authToken)) {
 	    if (renterMap.size() > 0)
 		return new ArrayList<Renter>(renterMap.values());
 	}
 	return null;
     }
-
     /**
      * 
      * @param authToken
      * @return
      * @throws AccessException
      */
-    private boolean authorization(String authToken) throws AccessException {
-
-	AccessException accessEx = new AccessException();
-	if (authToken == null || authToken.length() == 0) {
-	    accessEx.setDescription("An Authorization Token must be specified.\n");
-	    throw accessEx;
-	} else if (!authToken.equalsIgnoreCase(AUTHTOKEN)) {
-	    accessEx.setDescription("Authorization Token is invalid.\n");
-	    throw accessEx;
-	} else
-	    return true;
+    private boolean authorization(String serviceName, String authToken) throws AccessException {
+	try {
+	    AuthenticationServiceImpl asi = AuthenticationServiceImpl.getInstance();
+	    return asi.checkAccess(serviceName, authToken);
+	} catch (AuthenticationException e) {
+	    e.printStackTrace();
+	}
+	return false;
     }
 }
